@@ -14,22 +14,9 @@ submit.addEventListener("click",()=>{
 
 function AddTask() {
     let obj = {};
-    // if(obj.name != ""){
-    //     obj.name = name.value;
-    // }
-    // if(obj.desc != ""){
-    //     obj.desc = desc.value;
-    // }
-    // if(obj.price != ""){
-    //     // prompt('Enter price:');
-    //     obj.price = price.value;
-    // }
     obj.name = name.value;
     obj.desc = desc.value;
     obj.price = price.value;
-    // console.log(obj);   
-    // if(obj != {}){
-    // }
     obj.id = counter;
     counter++;
     items.push(obj);
@@ -40,7 +27,7 @@ function AddTask() {
 }
 
 function fetchFromLocalStorage(){
-    if(localStorage.getItem("items")!='[]'){
+    if(localStorage.getItem("items")!='[]' && localStorage.getItem("items")!=null){
         items = JSON.parse(localStorage.getItem("items"));
         counter = localStorage.getItem("counter");
         items.forEach((item) => AddtoUI(item))
@@ -48,7 +35,6 @@ function fetchFromLocalStorage(){
         items = [];
         counter = 1;
         localStorage.setItem('counter',1);
-        // localStorage.setItem('items',items);
     }
 }
 
@@ -80,8 +66,27 @@ function AddtoUI(obj){
     let replace = document.createElement("button");
     replace.innerHTML = "Replace";
     replace.addEventListener('click',(e)=>{
-        update(e);
-    });
+        let name1 = prompt('Enter Product name:');
+        span1.innerText = name1; 
+        let desc1 = prompt('Enter Product description:');
+        span2.innerText = desc1;
+        let price1 = prompt('Enter Product price:');
+        span3.innerText = price1;  
+        console.log(e);
+        let parentdiv = e.target.parentNode;
+        let taskid = parentdiv.getAttribute("class");
+        console.log(taskid);
+
+        items = items.filter((item)=>{
+            if(item.id == taskid){
+                item.name = name1;
+                item.desc = desc1;
+                item.price = price1;
+            }
+            return item;
+        })
+        storeToLocalStorage();
+    })
     
     div1.appendChild(replace);
         
@@ -109,33 +114,4 @@ function AddtoUI(obj){
     desc.value = "";
     price.value = "";
 
-}
-
-
-function update(e){
-
-    console.log(e);
-    let parentdiv = e.target.parentNode;
-    let taskid = parentdiv.getAttribute("class");
-    let childNodes = parentdiv.childNodes;
-    let span1 = parentdiv.childNodes[0];
-    let span2 = parentdiv.childNodes[1];
-    let span3 = parentdiv.childNodes[2];
-
-    span1.innerText = name.value;
-    span2.innerText = desc.value;
-    span3.innerText = price.value;
-
-    console.log(childNodes);
-
-    items = items.filter((item)=>{
-        if(item.id == taskid){
-            item.name = name.value;
-            item.desc = desc.value;
-            item.price = price.value;
-            
-        }
-        return item;
-    })
-    storeToLocalStorage();
 }
