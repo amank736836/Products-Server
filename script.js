@@ -61,7 +61,7 @@ function AddtoUI(obj){
     let replace = document.createElement("button");
     replace.innerHTML = "Replace";
     replace.addEventListener('click',(e)=>{
-        update(e);
+        update_item(e);
     });
     
     
@@ -90,7 +90,7 @@ function clear(){
 }
 
 
-function update(e){
+function update_item(e){
     let parentdiv = e.target.parentNode;
     let taskid = parentdiv.getAttribute("class");
 
