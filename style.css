@@ -1,0 +1,23 @@
+#button{
+    text-align: center;
+    padding: 20px;
+}
+
+#form{
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+}
+
+#items{
+    /* display: flex; */
+    justify-content: space-around;
+    padding: 5px;
+}
+
+#div1{
+    display: flex;
+    justify-content: space-around;
+    padding: 5px;
+    /* float:right; */
+}
