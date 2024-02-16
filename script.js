@@ -1,5 +1,5 @@
 let items = [];
-let counter = 1;
+let product_counter = 1;
 
 const div = document.querySelector("#items");
 const name = document.querySelector("#name");
@@ -17,23 +17,23 @@ function AddTask() {
     obj.name = name.value;
     obj.desc = desc.value;
     obj.price = price.value;
-    obj.id = counter;
+    obj.id = product_counter;
     items.push(obj);
     storeToLocalStorage();
     AddtoUI(obj);
-    counter++;
-    localStorage.setItem('counter',counter);
+    product_counter++;
+    localStorage.setItem('product_counter',product_counter);
 }
 
 function fetchFromLocalStorage(){
     if(localStorage.getItem("items")!='[]' && localStorage.getItem("items")!=null){
         items = JSON.parse(localStorage.getItem("items"));
-        counter = localStorage.getItem("counter");
+        product_counter = localStorage.getItem("product_counter");
         items.forEach((item) => AddtoUI(item))
     }else{
         items = [];
-        counter = 1;
-        localStorage.setItem('counter',1);
+        product_counter = 1;
+        localStorage.setItem('product_counter',1);
     }
 }
 
