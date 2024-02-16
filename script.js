@@ -66,27 +66,8 @@ function AddtoUI(obj){
     let replace = document.createElement("button");
     replace.innerHTML = "Replace";
     replace.addEventListener('click',(e)=>{
-        let name1 = prompt('Enter Product name:');
-        span1.innerText = name1; 
-        let desc1 = prompt('Enter Product description:');
-        span2.innerText = desc1;
-        let price1 = prompt('Enter Product price:');
-        span3.innerText = price1;  
-        console.log(e);
-        let parentdiv = e.target.parentNode;
-        let taskid = parentdiv.getAttribute("class");
-        console.log(taskid);
-
-        items = items.filter((item)=>{
-            if(item.id == taskid){
-                item.name = name1;
-                item.desc = desc1;
-                item.price = price1;
-            }
-            return item;
-        })
-        storeToLocalStorage();
-    })
+        update(e);
+    });
     
     div1.appendChild(replace);
         
