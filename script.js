@@ -66,55 +66,16 @@ function AddtoUI(obj){
     let replace = document.createElement("button");
     replace.innerHTML = "Replace";
     replace.addEventListener('click',(e)=>{
-
-        // let name1 = prompt('Enter Product name:');
-        // span1.innerText = name1; 
-        // let desc1 = prompt('Enter Product description:');
-        // span2.innerText = desc1;
-        // let price1 = prompt('Enter Product price:');
-        // span3.innerText = price1;  
-
-        // // console.log(e);
-
-        span1.innerText = name.value;
-        span2.innerText = desc.value;
-        span3.innerText = price.value;
-
-        
-
-        let parentdiv = e.target.parentNode;
-        let taskid = parentdiv.getAttribute("class");
-        console.log(taskid);
-
-        items = items.filter((item)=>{
-            if(item.id == taskid){
-                item.name = name.value;
-                item.desc = desc.value;
-                item.price = price.value;
-                
-            }
-            return item;
-        })
-        storeToLocalStorage();
-        // fetchFromLocalStorage();
-    })
+        update(e);
+    });
+    
     div1.appendChild(replace);
         
 
     let del = document.createElement("button");
     del.innerHTML = "Del"
     del.addEventListener('click',(e)=>{
-        let parentdiv = e.target.parentNode;
-        let taskid = parentdiv.getAttribute("class");
-        parentdiv.remove();
-        // console.log(parentdiv);
-        // div1.remove();
-        items = items.filter((item)=>{
-            if(item.id != taskid){
-                return item;
-            }
-        })
-        storeToLocalStorage();
+        delete_item(e);
     })
 
     div1.appendChild(del);
@@ -127,30 +88,40 @@ function AddtoUI(obj){
 }
 
 
-// function update(e){
+function update(e){
+    let parentdiv = e.target.parentNode;
+    let taskid = parentdiv.getAttribute("class");
 
-//     console.log(e);
-//     let parentdiv = e.target.parentNode;
-//     let taskid = parentdiv.getAttribute("class");
-//     let childNodes = parentdiv.childNodes;
-//     let span1 = parentdiv.childNodes[0];
-//     let span2 = parentdiv.childNodes[1];
-//     let span3 = parentdiv.childNodes[2];
+    let span1 = parentdiv.childNodes[0];
+    let span2 = parentdiv.childNodes[1];
+    let span3 = parentdiv.childNodes[2];
 
-//     span1.innerText = name.value;
-//     span2.innerText = desc.value;
-//     span3.innerText = price.value;
+    span1.innerText = name.value;
+    span2.innerText = desc.value;
+    span3.innerText = price.value;
 
-//     console.log(childNodes);
-
-//     items = items.filter((item)=>{
-//         if(item.id == taskid){
-//             item.name = name.value;
-//             item.desc = desc.value;
-//             item.price = price.value;
+    items = items.filter((item)=>{
+        if(item.id == taskid){
+            item.name = name.value;
+            item.desc = desc.value;
+            item.price = price.value;
             
-//         }
-//         return item;
-//     })
-//     storeToLocalStorage();
-// }
+        }
+        return item;
+    })
+    storeToLocalStorage();
+}
+
+function delete_item(e){
+    let parentdiv = e.target.parentNode;
+        let taskid = parentdiv.getAttribute("class");
+        parentdiv.remove();
+        items = items.filter((item)=>{
+            if(item.id != taskid){
+                return item;
+            }
+        })
+        storeToLocalStorage();
+}
+
+    
