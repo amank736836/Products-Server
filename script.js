@@ -49,6 +49,8 @@ function AddtoUI(obj){
     let span1 = document.createElement('span');
     let span2 = document.createElement('span');
     let span3 = document.createElement('span');
+    let replace = document.createElement("button");
+    let del = document.createElement("button");
 
     div1.setAttribute("class", obj.id);
     div1.setAttribute("id", "div1");
@@ -58,21 +60,16 @@ function AddtoUI(obj){
     span3.innerText = obj.price;
 
 
-    let replace = document.createElement("button");
     replace.innerHTML = "Replace";
     replace.addEventListener('click',(e)=>{
         update_item(e);
     });
     
-    
-    
-    let del = document.createElement("button");
     del.innerHTML = "Delete";
     del.addEventListener('click',(e)=>{
         delete_item(e);
     })
     
-    clear();
     
     div1.appendChild(span1);
     div1.appendChild(span2);
@@ -80,7 +77,8 @@ function AddtoUI(obj){
     div1.appendChild(replace);
     div1.appendChild(del);
     div.appendChild(div1);
-
+    
+    clear();
 }
 
 function clear(){
