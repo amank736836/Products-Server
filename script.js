@@ -59,7 +59,6 @@ function AddtoUI(obj){
     span2.innerText = obj.desc;
     span3.innerText = obj.price;
 
-
     replace.innerHTML = "Replace";
     replace.addEventListener('click',(e)=>{
         update_item(e);
@@ -69,7 +68,6 @@ function AddtoUI(obj){
     del.addEventListener('click',(e)=>{
         delete_item(e);
     })
-    
     
     div1.appendChild(span1);
     div1.appendChild(span2);
