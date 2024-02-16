@@ -5,24 +5,19 @@ const div = document.querySelector("#items");
 const name = document.querySelector("#name");
 const desc = document.querySelector("#desc");
 const price = document.querySelector("#price");
-
 const submit = document.querySelector("#submit");
 
-submit.addEventListener("click",()=>{
-    AddTask();    
-})
+submit.addEventListener("click",(e)=>input(e))
+name.addEventListener("keydown",(e)=>  input(e))
+desc.addEventListener("keydown",(e)=>  input(e))
+price.addEventListener("keydown",(e)=> input(e))
 
-function AddTask() {
-    let obj = {};
-    obj.name = name.value;
-    obj.desc = desc.value;
-    obj.price = price.value;
-    obj.id = product_counter;
-    items.push(obj);
-    storeToLocalStorage();
-    AddtoUI(obj);
-    product_counter++;
-    localStorage.setItem('product_counter',product_counter);
+function input(e){
+    if( (e.keyCode==13 || e.target.id=="submit") && (name.value=="" || desc.value=="" || price.value=="")){
+        alert("Please enter values");
+   }else if(e.keyCode==13 || e.target.id=="submit"){
+       AddTask();
+   }
 }
 
 function fetchFromLocalStorage(){
@@ -38,6 +33,19 @@ function fetchFromLocalStorage(){
 }
 
 fetchFromLocalStorage();
+
+function AddTask() {
+    let obj = {};
+    obj.name = name.value;
+    obj.desc = desc.value;
+    obj.price = price.value;
+    obj.id = product_counter;
+    items.push(obj);
+    storeToLocalStorage();
+    AddtoUI(obj);
+    product_counter++;
+    localStorage.setItem('product_counter',product_counter);
+}
 
 function storeToLocalStorage(){
     localStorage.setItem("items",JSON.stringify(items));
@@ -103,7 +111,6 @@ function update_item(e){
             item.name = name.value;
             item.desc = desc.value;
             item.price = price.value;
-            
         }
         return item;
     })
@@ -116,9 +123,7 @@ function delete_item(e){
     let taskid = parentdiv.getAttribute("class");
     parentdiv.remove();
     items = items.filter((item)=>{
-        if(item.id != taskid){
-            return item;
-        }
+        if(item.id != taskid) return item;
     })
     storeToLocalStorage();
 }
