@@ -117,30 +117,30 @@ function AddtoUI(obj){
 }
 
 
-function update(e){
+// function update(e){
 
-    console.log(e);
-    let parentdiv = e.target.parentNode;
-    let taskid = parentdiv.getAttribute("class");
-    let childNodes = parentdiv.childNodes;
-    let span1 = parentdiv.childNodes[0];
-    let span2 = parentdiv.childNodes[1];
-    let span3 = parentdiv.childNodes[2];
+//     console.log(e);
+//     let parentdiv = e.target.parentNode;
+//     let taskid = parentdiv.getAttribute("class");
+//     let childNodes = parentdiv.childNodes;
+//     let span1 = parentdiv.childNodes[0];
+//     let span2 = parentdiv.childNodes[1];
+//     let span3 = parentdiv.childNodes[2];
 
-    span1.innerText = name.value;
-    span2.innerText = desc.value;
-    span3.innerText = price.value;
+//     span1.innerText = name.value;
+//     span2.innerText = desc.value;
+//     span3.innerText = price.value;
 
-    console.log(childNodes);
+//     console.log(childNodes);
 
-    items = items.filter((item)=>{
-        if(item.id == taskid){
-            item.name = name.value;
-            item.desc = desc.value;
-            item.price = price.value;
+//     items = items.filter((item)=>{
+//         if(item.id == taskid){
+//             item.name = name.value;
+//             item.desc = desc.value;
+//             item.price = price.value;
             
-        }
-        return item;
-    })
-    storeToLocalStorage();
-}
+//         }
+//         return item;
+//     })
+//     storeToLocalStorage();
+// }
