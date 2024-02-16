@@ -18,12 +18,11 @@ function AddTask() {
     obj.desc = desc.value;
     obj.price = price.value;
     obj.id = counter;
-    counter++;
     items.push(obj);
-    localStorage.setItem('counter',counter);
     storeToLocalStorage();
     AddtoUI(obj);
-
+    counter++;
+    localStorage.setItem('counter',counter);
 }
 
 function fetchFromLocalStorage(){
@@ -58,10 +57,6 @@ function AddtoUI(obj){
     span2.innerText = obj.desc;
     span3.innerText = obj.price;
 
-    div1.appendChild(span1);
-    div1.appendChild(span2);
-    div1.appendChild(span3);
-
 
     let replace = document.createElement("button");
     replace.innerHTML = "Replace";
@@ -69,22 +64,29 @@ function AddtoUI(obj){
         update(e);
     });
     
-    div1.appendChild(replace);
-        
-
+    
+    
     let del = document.createElement("button");
-    del.innerHTML = "Del"
+    del.innerHTML = "Delete";
     del.addEventListener('click',(e)=>{
         delete_item(e);
     })
-
+    
+    clear();
+    
+    div1.appendChild(span1);
+    div1.appendChild(span2);
+    div1.appendChild(span3);
+    div1.appendChild(replace);
     div1.appendChild(del);
     div.appendChild(div1);
 
+}
+
+function clear(){
     name.value = "";
     desc.value = "";
     price.value = "";
-
 }
 
 
@@ -110,18 +112,19 @@ function update(e){
         return item;
     })
     storeToLocalStorage();
+    clear();
 }
 
 function delete_item(e){
     let parentdiv = e.target.parentNode;
-        let taskid = parentdiv.getAttribute("class");
-        parentdiv.remove();
-        items = items.filter((item)=>{
-            if(item.id != taskid){
-                return item;
-            }
-        })
-        storeToLocalStorage();
+    let taskid = parentdiv.getAttribute("class");
+    parentdiv.remove();
+    items = items.filter((item)=>{
+        if(item.id != taskid){
+            return item;
+        }
+    })
+    storeToLocalStorage();
 }
 
     
