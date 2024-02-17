@@ -21,7 +21,7 @@ function input(e){
 }
 
 function fetchFromLocalStorage(){
-    if(localStorage.getItem("products")!='[]' && localStorage.getItem("products")!=null){
+    if(localStorage.getItem("products")!='[]' && localStorage.getItem("products")){
         products = JSON.parse(localStorage.getItem("products"));
         product_counter = localStorage.getItem("product_counter");
         products.forEach((item) => AddtoUI(item))
