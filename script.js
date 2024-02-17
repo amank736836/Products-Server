@@ -25,10 +25,6 @@ function fetchFromLocalStorage(){
         products = JSON.parse(localStorage.getItem("products"));
         product_counter = localStorage.getItem("product_counter");
         products.forEach((item) => AddtoUI(item))
-    }else{
-        products = [];
-        product_counter = 1;
-        localStorage.setItem('product_counter',1);
     }
 }
 
@@ -126,6 +122,11 @@ function delete_item(e){
         if(item.id != taskid) return item;
     })
     storeToLocalStorage();
+    console.log(products);
+    if(products.length == 0){
+        localStorage.setItem('product_counter',1);
+        product_counter = 1;
+    }
 }
 
     
