@@ -43,31 +43,23 @@ function signup_account(){
     obj.id = Accounts_Counter;
 
     fetchFromLocalStorage();
+    
+    let check = Accounts.filter((obj)=>{
+        if(obj.user == user.value){
+            sessionStorage.setItem("message","Account exist");
+            return obj;
+        }
+    })
 
-    if( Accounts.length == 0){
+    if(check.length == 0){
         Accounts.push(obj);
+        storeToLocalStorage();
         Accounts_Counter++;
         localStorage.setItem("accounts_counter",Accounts_Counter);
         sessionStorage.setItem("message","Account created successfully");
-        storeToLocalStorage();
-    }else{
-        Accounts = Accounts.filter((obj)=>{
-            if(obj.user == user.value){
-                sessionStorage.setItem("message","Account exist");
-                return obj;
-            }
-        })
-
-        if(Accounts.length == 0){
-            Accounts = localStorage.getItem("accounts");
-            // console.log(Accounts);
-            Accounts.push(obj);
-            storeToLocalStorage();
-            sessionStorage.setItem("message","Account created successfully");
-            //redirectToLogin();
-        }
-        // redirectToSignup();
+        redirectToLogin();
     }
+    redirectToLogin();
 }
 
 function fetchFromLocalStorage(){
@@ -79,9 +71,6 @@ function fetchFromLocalStorage(){
 
 function redirectToLogin() {
     window.location.href = '../login/login.html';
-}
-function redirectToSignup() {
-    window.location.href = '../signup/signup.html';
 }
 function redirectToProducts() {
     window.location.href = '../products/products.html';

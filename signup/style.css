@@ -73,3 +73,7 @@ input:focus-visible{
     background-color:rgb(94, 154, 233);
     color: black;
 }
+input:hover{
+    background-color: aliceblue;
+    color: black;
+}
