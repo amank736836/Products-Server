@@ -3,7 +3,7 @@ body{
     margin: 25px;
 }
 
-#submit1{
+/* #submit1{
     text-align: center;
     padding: 10px;
     background-color: rgb(137, 203, 223);
@@ -19,6 +19,19 @@ body{
     background-color:rgb(106, 250, 93);
     color: aliceblue;
     font-size: xx-large;
+    text-decoration: underline;
+} */
+
+#welcome{
+    border-radius: 2cm 2cm 0cm 0cm;
+    font-size: xx-large;
+    text-align: center;
+    font-weight: 700;
+    font-family:'Times New Roman', Times, serif;
+    background-color:lightcyan;
+    padding: 5px;
+}
+#welcome:hover{
     text-decoration: underline;
 }
 
@@ -38,7 +51,8 @@ button:hover{
     display: flex;
     justify-content: space-around;
     padding: 10px;
-    background-color:rgb(185, 255, 255);
+    /* background-color:rgb(185, 255, 255); */
+    background-color:lightblue;
     font-family:Georgia, 'Times New Roman', Times, serif;
     font-weight: 500;
 }
@@ -55,9 +69,10 @@ label:hover,span:hover{
 
 #products{
     /* display: flex; */
-    background-color: rgb(116, 233, 233);
+    /* background-color: rgb(116, 233, 233); */
+    background-color:rgb(185, 255, 255);
     font-size:larger;
-    border-radius: 0cm 0cm 2cm 2cm;
+    border-radius: 0cm 0cm 1cm 1cm;
 }
 
 #div1{
@@ -79,4 +94,10 @@ input{
 input:focus-visible{
     background-color:rgb(94, 154, 233);
     color: black;
+}
+
+input:hover{
+    background-color: aliceblue;
+    color: black;
+
 }

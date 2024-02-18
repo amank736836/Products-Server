@@ -11,6 +11,7 @@ body{
     font-weight: 700;
     font-family:'Times New Roman', Times, serif;
     background-color:lightcyan;
+    padding: 5px;
 }
 #welcome:hover{
     text-decoration: underline;
@@ -32,6 +33,7 @@ button{
 
 button:hover{
     background-color: lightsalmon;
+    text-decoration: underline;
+    color: aliceblue;
     font-size: xx-large;
-
 }

@@ -5,20 +5,22 @@ const div = document.querySelector("#products");
 const name = document.querySelector("#name");
 const desc = document.querySelector("#desc");
 const price = document.querySelector("#price");
-const submit = document.querySelector("#submit2");
+// const submit = document.querySelector("#submit2");
 
 const form2 = document.querySelector("#form2");
 
-submit.addEventListener("click",(e)=>input(e))
+// submit.addEventListener("click",(e)=>input(e))
 name.addEventListener("keydown",(e)=>  input(e))
 desc.addEventListener("keydown",(e)=>  input(e))
 price.addEventListener("keydown",(e)=> input(e))
 window.addEventListener("keydown",(e)=> input(e))
 
 function input(e){
-    if( (e.keyCode==13 || e.target.id=="submit2") && (name.value=="" || desc.value=="" || price.value=="")){
+    // if( (e.keyCode==13 || e.target.id=="submit2") && (name.value=="" || desc.value=="" || price.value=="")){
+    if( (e.keyCode==13) && (name.value=="" || desc.value=="" || price.value=="")){
         // alert("Please enter values correctly");
-   }else if(e.keyCode==13 || e.target.id=="submit2"){
+//    }else if(e.keyCode==13 || e.target.id=="submit2"){
+   }else if(e.keyCode==13){
        AddTask();
    }
 }
@@ -29,7 +31,7 @@ function fetchFromLocalStorage(){
         product_counter = localStorage.getItem("product_counter");
         products.forEach((item) => AddtoUI(item))
     }else{
-        form2.setAttribute("style", "border-radius: 0cm 0cm 2cm 2cm;");
+        form2.setAttribute("style", "border-radius: 0cm 0cm 1cm 1cm;");
     }
 }
 
@@ -145,7 +147,7 @@ function delete_item(e){
     if(products.length == 0){
         localStorage.setItem('product_counter',1);
         product_counter = 1;
-        form2.setAttribute("style", "border-radius: 0cm 0cm 2cm 2cm;");
+        form2.setAttribute("style", "border-radius: 0cm 0cm 1cm 1cm;");
     }
 }
 
