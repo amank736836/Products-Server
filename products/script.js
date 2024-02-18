@@ -13,10 +13,11 @@ submit.addEventListener("click",(e)=>input(e))
 name.addEventListener("keydown",(e)=>  input(e))
 desc.addEventListener("keydown",(e)=>  input(e))
 price.addEventListener("keydown",(e)=> input(e))
+window.addEventListener("keydown",(e)=> input(e))
 
 function input(e){
     if( (e.keyCode==13 || e.target.id=="submit2") && (name.value=="" || desc.value=="" || price.value=="")){
-        alert("Please enter values");
+        // alert("Please enter values correctly");
    }else if(e.keyCode==13 || e.target.id=="submit2"){
        AddTask();
    }
