@@ -14,6 +14,6 @@ function redirectToLogin() {
     sessionStorage.setItem("error", "");
 }
 function redirectToSignup() {
-    window.location.href = '../login/signup.html';
+    window.location.href = '../signup/signup.html';
     sessionStorage.setItem("error", "");
 }

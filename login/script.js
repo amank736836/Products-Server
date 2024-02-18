@@ -8,12 +8,13 @@ let Accounts = [];
 let Accounts_Counter = 1;
 
 login.addEventListener("click", (e)=>input(e))
+signup.addEventListener("click", ()=>redirectToSignup())
 window.addEventListener("keydown",(e)=>input(e))
 
 document.addEventListener("DOMContentLoaded", function() {
-    let messages = sessionStorage.getItem("messages");
-    if(messages != null && messages != ""){
-        alert(messages);
+    let message = sessionStorage.getItem("message");
+    if(message != null && message != ""){
+        alert(message);
     }
   });
 
@@ -30,9 +31,6 @@ function input(e){
     }
 }
 
-signup.addEventListener("click", ()=>{
-    redirectToSignup();
-})
 
 function login_account(){
    
@@ -40,19 +38,22 @@ function login_account(){
     if( Accounts.length == 0){
         alert("Please Sign Up");
     }else{
-        Accounts.filter((obj)=>{
-            if(obj.user == user.value && obj.pass == password){
+        Accounts = Accounts.filter((obj)=>{
+            if(obj.user == user.value && obj.pass == pass.value){
                 sessionStorage.setItem("login" , JSON.stringify(obj));
-                redirectToProducts();
+                sessionStorage.setItem("message",'Account logged successfully');
                 return obj;
-            }else if(obj.user == user.value && obj.password != password){
+            }else if(obj.user == user.value && obj.password != pass.value){
                 sessionStorage.setItem("message","wrong password");
                 return obj;
             }
         })
         if(Accounts.length == 0){
             sessionStorage.setItem("message","No Account exist");
-        }
+            redirectToSignup();
+        }else if(Accounts[0].user == user.value && Accounts[0].pass == pass.value){
+            redirectToProducts();
+        }else
         redirectToLogin();
     }
 }
@@ -60,15 +61,12 @@ function login_account(){
 
 function redirectToLogin() {
     window.location.href = '../login/login.html';
-    sessionStorage.setItem("message", "");
 }
 function redirectToSignup() {
     window.location.href = '../signup/signup.html';
-    sessionStorage.setItem("message", "");
 }
 function redirectToProducts() {
-    window.location.href = '../products/products.html';
-    sessionStorage.setItem("message", "");
+    window.location.href = '../products/product.html';
 }
 
 
