@@ -5,7 +5,9 @@ const div = document.querySelector("#products");
 const name = document.querySelector("#name");
 const desc = document.querySelector("#desc");
 const price = document.querySelector("#price");
-const submit = document.querySelector("#submit");
+const submit = document.querySelector("#submit2");
+
+const form2 = document.querySelector("#form2");
 
 submit.addEventListener("click",(e)=>input(e))
 name.addEventListener("keydown",(e)=>  input(e))
@@ -13,9 +15,9 @@ desc.addEventListener("keydown",(e)=>  input(e))
 price.addEventListener("keydown",(e)=> input(e))
 
 function input(e){
-    if( (e.keyCode==13 || e.target.id=="submit") && (name.value=="" || desc.value=="" || price.value=="")){
+    if( (e.keyCode==13 || e.target.id=="submit2") && (name.value=="" || desc.value=="" || price.value=="")){
         alert("Please enter values");
-   }else if(e.keyCode==13 || e.target.id=="submit"){
+   }else if(e.keyCode==13 || e.target.id=="submit2"){
        AddTask();
    }
 }
@@ -25,6 +27,8 @@ function fetchFromLocalStorage(){
         products = JSON.parse(localStorage.getItem("products"));
         product_counter = localStorage.getItem("product_counter");
         products.forEach((item) => AddtoUI(item))
+    }else{
+        form2.setAttribute("style", "border-radius: 0cm 0cm 2cm 2cm;");
     }
 }
 
@@ -38,6 +42,9 @@ function AddTask() {
     obj.id = product_counter;
     products.push(obj);
     storeToLocalStorage();
+    if(products.length != 0){
+        form2.removeAttribute("style");
+    }
     AddtoUI(obj);
     product_counter++;
     localStorage.setItem('product_counter',product_counter);
@@ -122,10 +129,10 @@ function delete_item(e){
         if(item.id != taskid) return item;
     })
     storeToLocalStorage();
-    console.log(products);
     if(products.length == 0){
         localStorage.setItem('product_counter',1);
         product_counter = 1;
+        form2.setAttribute("style", "border-radius: 0cm 0cm 2cm 2cm;");
     }
 }
 
