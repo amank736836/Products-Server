@@ -1,0 +1,31 @@
+
+body{
+    background-color: grey;
+}
+
+#welcome{
+    text-align: center;
+    background-color:lightcyan;
+}
+#welcome:hover{
+    text-decoration: underline;
+}
+
+#buttons{
+    display: flex;
+    text-align: center;
+    justify-content: space-around;
+    padding: 20px;
+    background-color: lightblue;
+}
+
+button{
+    background-color:lightcoral;
+    font-size: x-large;
+}
+
+button:hover{
+    background-color: lightsalmon;
+    font-size: xx-large;
+
+}
