@@ -105,15 +105,27 @@ function update_item(e){
     let span2 = parentdiv.childNodes[1];
     let span3 = parentdiv.childNodes[2];
 
-    span1.innerText = name.value;
-    span2.innerText = desc.value;
-    span3.innerText = price.value;
+    if(name.value == ""){
+        span1.innerText = prompt("Please Enter name value");
+    }else{
+        span1.innerText = name.value;
+    }
+    if(desc.value == ""){
+        span2.innerText = prompt("Please Enter desc value");
+    }else{
+        span2.innerText = desc.value;
+    }
+    if(price.value == ""){
+        span3.innerText = prompt("Please Enter price value");
+    }else{
+        span3.innerText = price.value;
+    }
 
     products = products.filter((item)=>{
         if(item.id == taskid){
-            item.name = name.value;
-            item.desc = desc.value;
-            item.price = price.value;
+            item.name = span1.innerText;
+            item.desc = span2.innerText;
+            item.price = span3.innerText;
         }
         return item;
     })
