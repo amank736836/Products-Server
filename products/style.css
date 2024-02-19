@@ -1,6 +1,7 @@
 body{
     background-color: rgb(57, 181, 212);
     margin: 25px;
+    font-family:'Times New Roman', Times, serif;
 }
 
 /* #submit1{
@@ -22,18 +23,24 @@ body{
     text-decoration: underline;
 } */
 
-#welcome{
-    border-radius: 2cm 2cm 0cm 0cm;
-    font-size: xx-large;
-    text-align: center;
-    font-weight: 700;
-    font-family:'Times New Roman', Times, serif;
+#form3{
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+    font-weight: 500;
     background-color:lightcyan;
+    border-radius: 2cm 2cm 0cm 0cm;
+}
+
+#welcome{
+    font-size: xx-large;
+    font-weight: 700;
     padding: 5px;
 }
 #welcome:hover{
     text-decoration: underline;
 }
+
 
 button{
     background-color:lightcoral;
@@ -53,7 +60,6 @@ button:hover{
     padding: 10px;
     /* background-color:rgb(185, 255, 255); */
     background-color:lightblue;
-    font-family:Georgia, 'Times New Roman', Times, serif;
     font-weight: 500;
 }
 

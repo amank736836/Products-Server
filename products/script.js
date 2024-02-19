@@ -6,8 +6,10 @@ const name = document.querySelector("#name");
 const desc = document.querySelector("#desc");
 const price = document.querySelector("#price");
 // const submit = document.querySelector("#submit2");
-
 const form2 = document.querySelector("#form2");
+const logout = document.querySelector("#logout");
+const DeleteAll = document.querySelector("#DeleteAll");
+
 
 // submit.addEventListener("click",(e)=>input(e))
 name.addEventListener("keydown",(e)=>  input(e))
@@ -15,9 +17,35 @@ desc.addEventListener("keydown",(e)=>  input(e))
 price.addEventListener("keydown",(e)=> input(e))
 window.addEventListener("keydown",(e)=> input(e))
 
+logout.addEventListener("click",()=>{
+    sessionStorage.setItem("message", "");
+    sessionStorage.setItem("login","");
+    redirectToHome();
+});
+
+DeleteAll.addEventListener("click",()=>{
+    localStorage.setItem("products",[]);
+    localStorage.setItem("product_counter",1);
+    redirectToProducts();
+})
+
+function redirectToHome() {
+    window.location.href = '../home/home.html';
+}
+function redirectToProducts() {
+    window.location.href = '../products/product.html';
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    let login = sessionStorage.getItem("login");
+    if(login == null || login==""){
+        redirectToHome();
+    }
+});
+
 function input(e){
     // if( (e.keyCode==13 || e.target.id=="submit2") && (name.value=="" || desc.value=="" || price.value=="")){
-    if( (e.keyCode==13) && (name.value=="" || desc.value=="" || price.value=="")){
+    if( (e.keyCode==13) && (name.value.trim()=="" || desc.value.trim()=="" || price.value.trim()=="")){
         // alert("Please enter values correctly");
 //    }else if(e.keyCode==13 || e.target.id=="submit2"){
    }else if(e.keyCode==13){

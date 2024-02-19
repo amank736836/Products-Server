@@ -11,9 +11,7 @@ signup.addEventListener("click", ()=>{
 
 function redirectToLogin() {
     window.location.href = '../login/login.html';
-    sessionStorage.setItem("error", "");
 }
 function redirectToSignup() {
     window.location.href = '../signup/signup.html';
-    sessionStorage.setItem("error", "");
 }
