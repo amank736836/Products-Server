@@ -1,8 +1,7 @@
 const message = sessionStorage.getItem("message");
 const user = sessionStorage.getItem("login");
-const login = sessionStorage.getItem("login");
 
-if(login == "" || login == null){
+if(user == "" || user == null){
     redirectToLogin();
 }
 

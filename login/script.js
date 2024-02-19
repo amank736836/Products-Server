@@ -20,10 +20,10 @@ function check_message(){
     if(logged != "" && logged != null){
         redirectToProducts();
     }
-    if(message == "Approved"){
+    else if(message == "Approved"){
         redirectToProducts();
     }
-    if(message != null && message != ""){
+    else if(message != null && message != ""){
         create_message();
     }    
 }
