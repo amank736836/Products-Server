@@ -1,8 +1,42 @@
-
 const login = document.querySelector("#login");
 const signup = document.querySelector("#signup");
 const user = document.querySelector("#user");
 const pass = document.querySelector("#pass");
+
+let message = sessionStorage.getItem("message");
+let logged = sessionStorage.getItem("login");
+
+function create_message(){
+    let div = document.createElement("div");
+    let label = document.createElement("label");
+    label.innerText = message;
+    div.appendChild(label);
+    buttons.insertBefore(div,signup);
+    sessionStorage.setItem("message",'');
+}
+
+function check_message(){
+    if(logged != "" && logged != null){
+        redirectToProducts();
+    }
+    if(message == "Approved"){
+        redirectToProducts();
+    }
+    if(message != null && message != ""){
+        create_message();
+    }    
+}
+
+check_message();
+
+function redirectToProducts() {
+    window.location.href = '../products/product.html';
+}
+
+function redirectToLogin() {
+    window.location.href = '../login/login.html';
+}
+
 
 let Accounts = [];
 let Accounts_Counter = 1;
@@ -10,13 +44,6 @@ let Accounts_Counter = 1;
 login.addEventListener("click", (e)=> redirectToLogin())
 window.addEventListener("keydown",(e)=>input(e))
 signup.addEventListener("click", (e)=>input(e))
-
-document.addEventListener("DOMContentLoaded", function() {
-    let message = sessionStorage.getItem("message");
-    if(message != null && message != ""){
-        alert(message);
-    }
-  });
 
 function input(e){
  
@@ -62,19 +89,10 @@ function signup_account(){
     redirectToLogin();
 }
 
+
 function fetchFromLocalStorage(){
     if(localStorage.getItem("accounts")!='[]' && localStorage.getItem("accounts")){
         Accounts = JSON.parse(localStorage.getItem("accounts"));
         Accounts_Counter = localStorage.getItem("accounts_counter");
     }
 }
-
-function redirectToLogin() {
-    window.location.href = '../login/login.html';
-}
-function redirectToProducts() {
-    window.location.href = '../products/products.html';
-}
-
-
-

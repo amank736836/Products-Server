@@ -1,3 +1,21 @@
+const message = sessionStorage.getItem("message");
+const user = sessionStorage.getItem("login");
+const login = sessionStorage.getItem("login");
+
+if(login == "" || login == null){
+    redirectToLogin();
+}
+
+function redirectToHome() {
+    window.location.href = '../home/home.html';
+}
+function redirectToProducts() {
+    window.location.href = '../products/product.html';
+}
+function redirectToLogin() {
+    window.location.href = '../login/login.html';
+}
+
 let products = [];
 let product_counter = 1;
 
@@ -20,40 +38,39 @@ window.addEventListener("keydown",(e)=> input(e))
 logout.addEventListener("click",()=>{
     sessionStorage.setItem("message", "");
     sessionStorage.setItem("login","");
-    redirectToHome();
+    redirectToLogin();
 });
 
 DeleteAll.addEventListener("click",()=>{
-    localStorage.setItem("products",[]);
+    localStorage.setItem("products","[]");
     localStorage.setItem("product_counter",1);
     redirectToProducts();
 })
 
-function redirectToHome() {
-    window.location.href = '../home/home.html';
-}
-function redirectToProducts() {
-    window.location.href = '../products/product.html';
-}
-
-document.addEventListener("DOMContentLoaded", function() {
-    let login = sessionStorage.getItem("login");
-    if(login == null || login==""){
-        redirectToHome();
+let admin = false;
+function admin_check(){
+    if(user=="aman"){
+        admin = true;
+    }else{
+        DeleteAll.setAttribute("hidden","");
+        name.setAttribute("hidden","");
+        desc.setAttribute("hidden","");
+        price.setAttribute("hidden","");
+        
     }
-});
+}
 
+   
 function input(e){
-    // if( (e.keyCode==13 || e.target.id=="submit2") && (name.value=="" || desc.value=="" || price.value=="")){
     if( (e.keyCode==13) && (name.value.trim()=="" || desc.value.trim()=="" || price.value.trim()=="")){
         // alert("Please enter values correctly");
-//    }else if(e.keyCode==13 || e.target.id=="submit2"){
    }else if(e.keyCode==13){
        AddTask();
    }
 }
 
 function fetchFromLocalStorage(){
+    admin_check();
     if(localStorage.getItem("products")!='[]' && localStorage.getItem("products")){
         products = JSON.parse(localStorage.getItem("products"));
         product_counter = localStorage.getItem("product_counter");
@@ -111,6 +128,11 @@ function AddtoUI(obj){
         delete_item(e);
     })
     
+    if(admin == false) {
+        replace.setAttribute("hidden", "");
+        del.setAttribute("hidden", "");
+    }
+
     div1.appendChild(span1);
     div1.appendChild(span2);
     div1.appendChild(span3);

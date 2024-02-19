@@ -1,8 +1,41 @@
-
 const login = document.querySelector("#login");
 const signup = document.querySelector("#signup");
 const user = document.querySelector("#user");
 const pass = document.querySelector("#pass");
+const buttons = document.querySelector("#buttons");
+
+let message = sessionStorage.getItem("message");
+let logged = sessionStorage.getItem("login");
+
+function create_message(){
+    let div = document.createElement("div");
+    let label = document.createElement("label");
+    label.innerText = message;
+    div.appendChild(label);
+    buttons.insertBefore(div,signup);
+    sessionStorage.setItem("message",'');
+}
+
+function check_message(){
+    if(logged != "" && logged != null){
+        redirectToProducts();
+    }
+    if(message == "Approved"){
+        redirectToProducts();
+    }
+    if(message != null && message != ""){
+        create_message();
+    }    
+}
+
+check_message();
+
+
+function redirectToProducts() {
+    window.location.href = '../products/product.html';
+}
+
+
 
 let Accounts = [];
 let Accounts_Counter = 1;
@@ -10,13 +43,6 @@ let Accounts_Counter = 1;
 login.addEventListener("click", (e)=>input(e))
 signup.addEventListener("click", ()=>redirectToSignup())
 window.addEventListener("keydown",(e)=>input(e))
-
-document.addEventListener("DOMContentLoaded", function() {
-    let message = sessionStorage.getItem("message");
-    if(message != null && message != ""){
-        alert(message);
-    }
-  });
 
 function input(e){
  
@@ -40,8 +66,8 @@ function login_account(){
     }else{
         Accounts = Accounts.filter((obj)=>{
             if(obj.user == user.value && obj.pass == pass.value){
-                sessionStorage.setItem("login" , JSON.stringify(obj));
-                sessionStorage.setItem("message",'Account logged successfully');
+                sessionStorage.setItem("login",user.value);
+                sessionStorage.setItem("message",'Approved');
                 return obj;
             }else if(obj.user == user.value && obj.password != pass.value){
                 sessionStorage.setItem("message","wrong password");

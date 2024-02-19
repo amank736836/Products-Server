@@ -1,4 +1,2 @@
 
-//login signup also link
-
-//alert tag for entering new product
+// authorization (admin -- products // user -- products)
