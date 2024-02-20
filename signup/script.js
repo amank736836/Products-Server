@@ -63,13 +63,14 @@ function storeToLocalStorage(){
 }
 
 function signup_account(){
-   
+    
+    fetchFromLocalStorage();
+
     obj = {};
     obj.user = user.value;
     obj.pass = pass.value;
     obj.id = Accounts_Counter;
 
-    fetchFromLocalStorage();
     
     let check = Accounts.filter((obj)=>{
         if(obj.user == user.value){
@@ -89,10 +90,12 @@ function signup_account(){
     redirectToLogin();
 }
 
-
 function fetchFromLocalStorage(){
     if(localStorage.getItem("accounts")!='[]' && localStorage.getItem("accounts")){
         Accounts = JSON.parse(localStorage.getItem("accounts"));
         Accounts_Counter = localStorage.getItem("accounts_counter");
+    }else{
+        localStorage.setItem('accounts_counter',1);
+        Accounts_Counter = 1;
     }
 }

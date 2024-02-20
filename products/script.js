@@ -1,9 +1,10 @@
+let admin = false;
+function admin_check(){
+    if(user!="aman") redirectToHome();
+}
+
 const message = sessionStorage.getItem("message");
 const user = sessionStorage.getItem("login");
-
-if(user == "" || user == null){
-    redirectToLogin();
-}
 
 function redirectToHome() {
     window.location.href = '../home/home.html';
@@ -22,7 +23,7 @@ const div = document.querySelector("#products");
 const name = document.querySelector("#name");
 const desc = document.querySelector("#desc");
 const price = document.querySelector("#price");
-// const submit = document.querySelector("#submit2");
+
 const form2 = document.querySelector("#form2");
 const logout = document.querySelector("#logout");
 const DeleteAll = document.querySelector("#DeleteAll");
@@ -37,7 +38,7 @@ window.addEventListener("keydown",(e)=> input(e))
 logout.addEventListener("click",()=>{
     sessionStorage.setItem("message", "");
     sessionStorage.setItem("login","");
-    redirectToLogin();
+    redirectToHome();
 });
 
 DeleteAll.addEventListener("click",()=>{
@@ -46,18 +47,6 @@ DeleteAll.addEventListener("click",()=>{
     redirectToProducts();
 })
 
-let admin = false;
-function admin_check(){
-    if(user=="aman"){
-        admin = true;
-    }else{
-        DeleteAll.setAttribute("hidden","");
-        name.setAttribute("hidden","");
-        desc.setAttribute("hidden","");
-        price.setAttribute("hidden","");
-        
-    }
-}
 
    
 function input(e){
@@ -126,11 +115,6 @@ function AddtoUI(obj){
     del.addEventListener('click',(e)=>{
         delete_item(e);
     })
-    
-    if(admin == false) {
-        replace.setAttribute("hidden", "");
-        del.setAttribute("hidden", "");
-    }
 
     div1.appendChild(span1);
     div1.appendChild(span2);
