@@ -1,2 +1,6 @@
 
 // authorization (admin -- products // user -- products)
+
+// new page for showing products -- load more -- per page 6 products
+
+//add to cart -- cart page 
