@@ -40,16 +40,26 @@ button:hover{
 
 
 #products{
-    /* display: flex; */
-    /* background-color: rgb(116, 233, 233); */
     background-color:rgb(185, 255, 255);
     font-size:larger;
-    border-radius: 0cm 0cm 1cm 1cm;
+    display: flex;
+    justify-content: space-around;
+    flex-direction:row;
+  
 }
 
 #div1{
     display: flex;
-    justify-content: space-around;
+    align-items: center;
+    flex-direction:column;
     padding: 13px;
     font-weight: 500;
+    border: 10px solid dimgray;
+    width: 200px;
+    margin: 25px;
+}
+
+img{
+    width: 150px;
+    height: auto;
 }

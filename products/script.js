@@ -21,7 +21,7 @@ let product_counter = 1;
 
 const div = document.querySelector("#products");
 const name = document.querySelector("#name");
-const desc = document.querySelector("#desc");
+const quantity = document.querySelector("#quantity");
 const price = document.querySelector("#price");
 
 const form2 = document.querySelector("#form2");
@@ -31,7 +31,7 @@ const DeleteAll = document.querySelector("#DeleteAll");
 
 // submit.addEventListener("click",(e)=>input(e))
 name.addEventListener("keydown",(e)=>  input(e))
-desc.addEventListener("keydown",(e)=>  input(e))
+quantity.addEventListener("keydown",(e)=>  input(e))
 price.addEventListener("keydown",(e)=> input(e))
 window.addEventListener("keydown",(e)=> input(e))
 
@@ -50,7 +50,7 @@ DeleteAll.addEventListener("click",()=>{
 
    
 function input(e){
-    if( (e.keyCode==13) && (name.value.trim()=="" || desc.value.trim()=="" || price.value.trim()=="")){
+    if( (e.keyCode==13) && (name.value.trim()=="" || quantity.value.trim()=="" || price.value.trim()=="")){
         // alert("Please enter values correctly");
    }else if(e.keyCode==13){
        AddTask();
@@ -72,9 +72,9 @@ fetchFromLocalStorage();
 
 function AddTask() {
     let obj = {};
-    obj.name = name.value;
-    obj.desc = desc.value;
-    obj.price = price.value;
+    obj.name = name.value.trim();
+    obj.quantity = quantity.value.trim();
+    obj.price = price.value.trim();
     obj.id = product_counter;
     products.push(obj);
     storeToLocalStorage();
@@ -103,15 +103,18 @@ function AddtoUI(obj){
     div1.setAttribute("id", "div1");
 
     span1.innerText = obj.name;
-    span2.innerText = obj.desc;
-    span3.innerText = obj.price;
+    span2.innerText = obj.quantity;
+    let hundreds = new Number(obj.price);
+    hundreds = hundreds.toLocaleString("en-IN");
+    span3.innerText = hundreds;
 
-    replace.innerHTML = "Replace";
+
+    replace.innerHTML = "<b>Replace<b>";
     replace.addEventListener('click',(e)=>{
         update_item(e);
     });
     
-    del.innerHTML = "Delete";
+    del.innerHTML = "<b>Delete<b>";
     del.addEventListener('click',(e)=>{
         delete_item(e);
     })
@@ -128,7 +131,7 @@ function AddtoUI(obj){
 
 function clear(){
     name.value = "";
-    desc.value = "";
+    quantity.value = "";
     price.value = "";
 }
 
@@ -140,27 +143,14 @@ function update_item(e){
     let span1 = parentdiv.childNodes[0];
     let span2 = parentdiv.childNodes[1];
     let span3 = parentdiv.childNodes[2];
-
-    if(name.value == ""){
-        span1.innerText = prompt("Please Enter name value");
-    }else{
-        span1.innerText = name.value;
-    }
-    if(desc.value == ""){
-        span2.innerText = prompt("Please Enter desc value");
-    }else{
-        span2.innerText = desc.value;
-    }
-    if(price.value == ""){
-        span3.innerText = prompt("Please Enter price value");
-    }else{
-        span3.innerText = price.value;
-    }
+    span1.setAttribute("contenteditable", "true");
+    span2.setAttribute("contenteditable", "true");
+    span3.setAttribute("contenteditable", "true");
 
     products = products.filter((item)=>{
         if(item.id == taskid){
             item.name = span1.innerText;
-            item.desc = span2.innerText;
+            item.quantity = span2.innerText;
             item.price = span3.innerText;
         }
         return item;
