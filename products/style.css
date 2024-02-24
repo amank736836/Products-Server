@@ -4,25 +4,6 @@ body{
     font-family:'Times New Roman', Times, serif;
 }
 
-/* #submit1{
-    text-align: center;
-    padding: 10px;
-    background-color: rgb(137, 203, 223);
-    font-size: x-large;
-    border-radius: 1cm 1cm 0cm 0cm;
-
-}
-#submit2{
-    background-color:rgb(137, 255, 126);
-    font-size: x-large;
-}
-#submit2:hover{
-    background-color:rgb(106, 250, 93);
-    color: aliceblue;
-    font-size: xx-large;
-    text-decoration: underline;
-} */
-
 #form3{
     display: flex;
     justify-content: space-around;
@@ -56,8 +37,9 @@ button:hover{
 
 #form1,#form2{
     display: flex;
+    /* flex-wrap: wrap; */
     justify-content: space-around;
-    padding: 10px;
+    padding: 5px;
     /* background-color:rgb(185, 255, 255); */
     background-color:lightblue;
     font-weight: 500;
@@ -74,18 +56,24 @@ label:hover,span:hover{
 }
 
 #products{
-    /* display: flex; */
-    /* background-color: rgb(116, 233, 233); */
     background-color:rgb(185, 255, 255);
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
     font-size:larger;
     border-radius: 0cm 0cm 1cm 1cm;
+    justify-content: space-around;
 }
 
 #div1{
     display: flex;
-    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
     padding: 13px;
     font-weight: 500;
+    border: 10px solid dimgray;
+    width: 150px;
+    margin: 25px;
 }
 
 input{

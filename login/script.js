@@ -102,4 +102,3 @@ function fetchFromLocalStorage(){
         Accounts_Counter = localStorage.getItem("accounts_counter");
     }
 }
-

@@ -2,16 +2,17 @@
 body{
     background-color: rgb(57, 181, 212);
     margin: 25px;
+    font-family:'Times New Roman', Times, serif;
 }
 
 #welcome{
-    border-radius: 1cm 1cm 0cm 0cm;
     font-size: xx-large;
     text-align: center;
     font-weight: 700;
     font-family:'Times New Roman', Times, serif;
     background-color:lightcyan;
-    padding: 5px;
+    padding: 15px;
+    border-radius: 1cm 1cm 0cm 0cm;
 }
 #welcome:hover{
     text-decoration: underline;
@@ -21,14 +22,14 @@ body{
     text-align: center;
     justify-content: space-around;
     display: flex;
-    padding: 20px;
+    padding: 15px;
     background-color: lightblue;
-    /* border-radius: 0cm 0cm 1cm 1cm; */
 }
 
 button{
     background-color:lightcoral;
     font-size: x-large;
+    border-radius: 0.5cm;
 }
 
 button:hover{
@@ -41,10 +42,10 @@ button:hover{
 
 #products{
     background-color:rgb(185, 255, 255);
-    font-size:larger;
     display: flex;
-    justify-content: space-around;
     flex-direction:row;
+    font-size:larger;
+    justify-content: space-around;
   
 }
 
@@ -55,11 +56,20 @@ button:hover{
     padding: 13px;
     font-weight: 500;
     border: 10px solid dimgray;
-    width: 200px;
-    margin: 25px;
+    border-radius: 1cm;
+    width: 250px;
+    margin: 15px;
 }
 
 img{
-    width: 150px;
+    width: 200px;
     height: auto;
+    border-radius: 0.5cm;
+}
+
+#load_div{
+    padding: 2px;
+    margin: 5px;
+    display: flex;
+    justify-content: center;
 }
