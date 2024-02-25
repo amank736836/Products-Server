@@ -1,3 +1,7 @@
+//////////////////////////////////////////////////////////////////////////
+
+//variables
+
 const login = document.querySelector("#login");
 const signup = document.querySelector("#signup");
 const user = document.querySelector("#user");
@@ -7,14 +11,29 @@ const buttons = document.querySelector("#buttons");
 let message = sessionStorage.getItem("message");
 let logged = sessionStorage.getItem("login");
 
+let label = document.createElement("label");
+
+let Accounts = [];
+let Accounts_Counter = 1;
+
+//////////////////////////////////////////////////////////////////////////
+
+//event listeners
+
+login.addEventListener("click", (e)=>input(e))
+signup.addEventListener("click", ()=>redirectToSignup())
+window.addEventListener("keydown",(e)=>input(e))
+
+//////////////////////////////////////////////////////////////////////////
 function create_message(){
     let div = document.createElement("div");
-    let label = document.createElement("label");
     label.innerText = message;
     div.appendChild(label);
     buttons.insertBefore(div,signup);
     sessionStorage.setItem("message",'');
 }
+
+//////////////////////////////////////////////////////////////////////////
 
 function check_message(){
     if(logged != "" && logged != null){
@@ -23,43 +42,31 @@ function check_message(){
     else if(message == "Approved"){
         redirectToProducts();
     }
-    else if(message != null && message != ""){
+    else if(message != null){
         create_message();
     }    
 }
 
 check_message();
 
-
-function redirectToProducts() {
-    window.location.href = '../products/product.html';
-}
-
-
-
-let Accounts = [];
-let Accounts_Counter = 1;
-
-login.addEventListener("click", (e)=>input(e))
-signup.addEventListener("click", ()=>redirectToSignup())
-window.addEventListener("keydown",(e)=>input(e))
+//////////////////////////////////////////////////////////////////////////
 
 function input(e){
- 
+    
     if( (e.keyCode==13 || e.target.id=="login") && (user.value=="")){
-        alert("Please enter username");
+        label.innerText = "Please enter username";
     }
     else if( (e.keyCode==13 || e.target.id=="login") && (pass.value=="")){
-        alert("Please enter password");
+        label.innerText = ("Please enter password");
     }
     else if(e.keyCode==13 || e.target.id=="login"){
-       login_account();
+        login_account();
     }
 }
 
 
 function login_account(){
-   
+    
     fetchFromLocalStorage();
     if( Accounts.length == 0){
         alert("Please Sign Up");
@@ -84,21 +91,24 @@ function login_account(){
     }
 }
 
-
-function redirectToLogin() {
-    window.location.href = '../login/login.html';
-}
-function redirectToSignup() {
-    window.location.href = '../signup/signup.html';
-}
-function redirectToProducts() {
-    window.location.href = '../products/product.html';
-}
-
-
 function fetchFromLocalStorage(){
     if(localStorage.getItem("accounts")!='[]' && localStorage.getItem("accounts")){
         Accounts = JSON.parse(localStorage.getItem("accounts"));
         Accounts_Counter = localStorage.getItem("accounts_counter");
     }
+}
+
+//////////////////////////////////////////////////////////////////////////
+
+function redirectToProducts() {
+    window.location.href = '../products/product.html';
+}
+function redirectToLogin() {
+    window.location.href = '../login/login.html';
+}
+function redirectToSignup() {
+window.location.href = '../signup/signup.html';
+}
+function redirectToProducts() {
+    window.location.href = '../products/product.html';
 }

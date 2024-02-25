@@ -26,6 +26,9 @@ body{
 button{
     background-color:lightcoral;
     font-size: x-large;
+    border-radius: 0.5cm;
+    margin: 5px;
+
 }
 button:hover{
     background-color: lightsalmon;
@@ -72,8 +75,9 @@ label:hover,span:hover{
     padding: 13px;
     font-weight: 500;
     border: 10px solid dimgray;
-    width: 150px;
-    margin: 25px;
+    border-radius: 1cm;
+    width: 450px;
+    margin: 15px;
 }
 
 input{
@@ -83,6 +87,8 @@ input{
     font-size: large;
     color: rgb(255, 255, 255);
     border-color: rgb(231, 4, 4);
+    border-radius: 0.5cm;
+
 }
 
 input:focus-visible{
@@ -93,4 +99,10 @@ input:focus-visible{
 input:hover{
     background-color: aliceblue;
     color: black;
+}
+
+img{
+    width: 400px;
+    height: 180px;
+    border-radius: 0.5cm;
 }

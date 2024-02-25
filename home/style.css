@@ -28,7 +28,7 @@ body{
 
 button{
     background-color:lightcoral;
-    font-size: x-large;
+    font-size: larger;
     border-radius: 0.5cm;
 }
 
@@ -36,7 +36,7 @@ button:hover{
     background-color: lightsalmon;
     text-decoration: underline;
     color: aliceblue;
-    font-size: xx-large;
+    font-size: x-large;
 }
 
 
@@ -72,4 +72,10 @@ img{
     margin: 5px;
     display: flex;
     justify-content: center;
+}
+
+span:hover{
+    text-decoration: underline;
+    font-size: x-large;
+    color:rgb(252, 110, 157);
 }
