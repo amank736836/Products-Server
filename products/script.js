@@ -137,7 +137,8 @@ function AddtoUI(obj){
     div2.appendChild(replace);
     div2.appendChild(del);
     div1.appendChild(div2);
-    div.appendChild(div1);
+    let firstChild = div.firstChild;
+    div.insertBefore(div1,firstChild);
     
     clear();
 }
