@@ -39,6 +39,17 @@ button:hover{
     font-size: x-large;
 }
 
+#login,#signup{
+    font-size: x-large;
+}
+
+#login:hover{
+    font-size: xx-large;
+}
+
+#signup:hover{
+    font-size: xx-large;
+}
 
 #products{
     background-color:rgb(185, 255, 255);

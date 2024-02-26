@@ -57,7 +57,7 @@ function input(e){
         label.innerText = "Please enter username";
     }
     else if( (e.keyCode==13 || e.target.id=="login") && (pass.value=="")){
-        label.innerText = ("Please enter password");
+        label.innerText = "Please enter password";
     }
     else if(e.keyCode==13 || e.target.id=="login"){
         login_account();
@@ -69,7 +69,8 @@ function login_account(){
     
     fetchFromLocalStorage();
     if( Accounts.length == 0){
-        alert("Please Sign Up");
+        sessionStorage.setItem("message","Please Sign Up");
+        redirectToSignup();
     }else{
         Accounts = Accounts.filter((obj)=>{
             if(obj.user == user.value && obj.pass == pass.value){
