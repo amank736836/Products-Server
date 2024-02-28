@@ -82,7 +82,12 @@ function fetchFromLocalStorage(){
         }
 
         let span4 = document.createElement('span');
-        span4.innerText = "Ruppes " + total;
+        
+        let hundreds = new Number(total);
+        hundreds = hundreds.toLocaleString("en-IN");
+
+        span4.innerText = "Ruppes " + hundreds;
+
         welcome.appendChild(span4); 
 
     }else{
@@ -168,9 +173,9 @@ function AddtoUI(obj,product,div,k){
         decrement(e,k);
     })
     
-    div_buttons.appendChild(incre);
-    div_buttons.appendChild(span);
     div_buttons.appendChild(decre);
+    div_buttons.appendChild(span);
+    div_buttons.appendChild(incre);
     
     div_final.appendChild(div_buttons);
     

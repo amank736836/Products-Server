@@ -167,8 +167,8 @@ function update_item(e){
     products = products.filter((item)=>{
         if(item.id == taskid){
             item.name = span1.innerText;
-            item.quantity = span2.innerText;
-            item.price = span3.innerText;
+            item.price = span2.innerText;
+            item.quantity = span3.innerText;
         }
         return item;
     })
