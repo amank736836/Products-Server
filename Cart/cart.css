@@ -6,13 +6,15 @@ body{
 }
 
 #welcome{
-    font-size: xx-large;
-    text-align: center;
+    font-size: x-large;
     font-weight: 700;
     font-family:'Times New Roman', Times, serif;
     background-color:lightcyan;
-    padding: 15px;
     border-radius: 1cm 1cm 0cm 0cm;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
 }
 #welcome:hover{
     text-decoration: underline;
@@ -30,6 +32,7 @@ button{
     background-color:lightcoral;
     font-size: larger;
     border-radius: 0.5cm;
+    margin: 5px;
 }
 
 button:hover{

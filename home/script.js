@@ -69,7 +69,6 @@ function fetch_cart(){
     if(user!=null && user!="" ){
         j = -1;
         accounts = JSON.parse(localStorage.getItem("accounts"));
-        console.log(accounts);
         let flag = true;
         while(flag){
             j++;
@@ -169,7 +168,7 @@ function Addtocart_button(div1,id){
         let atc = document.createElement('button');
         let flag = true;
         accounts[j].cart.filter((item)=>{
-            if(id == item.id){
+            if(id == item.id && item.quantity != 0){
                 flag = false;
                 atc.innerHTML = " <b>Cart Quantity</b> "+`${item.quantity}`
             }
@@ -192,7 +191,6 @@ function Addtocart_button(div1,id){
 function Addtocart(e,atc) {
     let div = e.target.parentNode.parentNode;
     let quantity = e.target.parentNode.parentNode.childNodes[3].childNodes[1].innerText;
-    
     let obj = {};
     let product_id = div.getAttribute("class");
     

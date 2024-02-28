@@ -10,6 +10,7 @@ let deliver = document.querySelector("#deliver");
 let logout = document.querySelector("#logout");
 
 let buttons = document.querySelector("#buttons");
+let welcome = document.querySelector("#welcome");
 
 let user = sessionStorage.getItem("login");
 let accounts = JSON.parse(localStorage.getItem("accounts"));
@@ -21,6 +22,8 @@ let i=0;
 let div = null;
 
 let j = 0;
+
+let total = 0;
 //////////////////////////////////////////////////////////////////////////
 
 //event listeners
@@ -45,7 +48,6 @@ function fetch_cart(){
     if(user!=null && user!="" ){
         j = -1;
         accounts = JSON.parse(localStorage.getItem("accounts"));
-        console.log(accounts);
         let flag = true;
         while(flag){
             j++;
@@ -72,13 +74,17 @@ function fetchFromLocalStorage(){
             div = document.createElement("div");
             div.setAttribute("id", "products");
     
-            fetch(user_products[i],div);
+            fetch(user_products[i],div,i);
             i++
             if(i == user_products.length){
                 div.setAttribute("style", "border-radius: 0cm 0cm 1cm 1cm;");
             }
-            
         }
+
+        let span4 = document.createElement('span');
+        span4.innerText = "Ruppes " + total;
+        welcome.appendChild(span4); 
+
     }else{
         buttons.setAttribute("style", "border-radius: 0cm 0cm 1cm 1cm;");
     }
@@ -88,17 +94,18 @@ fetchFromLocalStorage();
 
 //////////////////////////////////////////////////////////////////////////
 
-function fetch(product,div){
+function fetch(product,div,k){
     if(localStorage.getItem("products")!='[]' && localStorage.getItem("products")){
         products = JSON.parse(localStorage.getItem("products"));
         let obj = products.filter((item)=>{
             if(item.id==product.id){
                 return item;
+
             }
         })
 
         if(obj.length!=0){
-            AddtoUI(obj,product,div);
+            AddtoUI(obj[0],product,div,k);
         }
     }else{
         buttons.setAttribute("style", "border-radius: 0cm 0cm 1cm 1cm;");
@@ -106,7 +113,7 @@ function fetch(product,div){
 }
 
 //////////////////////////////////////////////////////////////////////////
-function AddtoUI(obj,product,div){
+function AddtoUI(obj,product,div,k){
     
     
     let main_div = document.createElement('div');
@@ -144,12 +151,22 @@ function AddtoUI(obj,product,div){
     
     let div_buttons = document.createElement('div');
     
+    total += product.quantity * obj.price;
+
     let incre = document.createElement('button');
     incre.innerHTML = "Incre";
+    incre.addEventListener("click",(e)=>{
+        increment(e,k,obj.quantity);
+    })
+
     let span = document.createElement('span');
-    span.innerHTML = " Qty -> " + `<b>${product.quantity}</b>` + " ";
+    span.innerHTML = " Qty -> " + `<b>${product.quantity}</b>`;
+    
     let decre = document.createElement('button');
     decre.innerHTML = "Decre";
+    decre.addEventListener("click",(e)=>{
+        decrement(e,k);
+    })
     
     div_buttons.appendChild(incre);
     div_buttons.appendChild(span);
@@ -159,69 +176,63 @@ function AddtoUI(obj,product,div){
     
     let delete_btn = document.createElement('button');
     delete_btn.innerHTML = "delete";
+    delete_btn.addEventListener("click",(e)=>{
+        delete_button(e,k);
+    });
     div_final.appendChild(delete_btn);
 
     main_div.appendChild(div_final);
 
     div.appendChild(main_div);
     body.appendChild(div);
+
+  
+
     
 }
 
 //////////////////////////////////////////////////////////////////////////
 
-function buttons_incre_decre(div,id){
-    if(user != "" && user != undefined && user != null ){
-        let atc = document.createElement('button');
-        let flag = true;
-        accounts[j].cart.filter((item)=>{
-            if(id == item.id){
-                flag = false;
-                atc.innerHTML = " <b>Cart Quantity</b> "+`${item.quantity}`
-            }
-            return item;
-        })
-        
-        if(flag){
-            atc.innerHTML = "<b>Add to Cart<b>";
-        }
-        
-        atc.addEventListener("click",(e)=>{
-            Addtocart(e,atc);
-        })  
-        div.appendChild(atc);
+function increment(e,k,quantity){
+
+    if(quantity != accounts[j].cart[k].quantity){
+        accounts[j].cart[k].quantity = ++accounts[j].cart[k].quantity;
+        storeToLocalStorage();
     }
+    quantity = e.target.parentNode.childNodes[1].childNodes[1];
+    quantity.innerText = accounts[j].cart[k].quantity;
+}
+
+function decrement(e,k){
+    accounts[j].cart[k].quantity = --accounts[j].cart[k].quantity;
+    if(accounts[j].cart[k].quantity <=0){
+        delete_button(e,k);
+    }
+    quantity = e.target.parentNode.childNodes[1].childNodes[1];
+    quantity.innerText = accounts[j].cart[k].quantity;
+    storeToLocalStorage();
 }
 
 //////////////////////////////////////////////////////////////////////////
 
-function Addtocart(e,atc) {
+function delete_button(e,k){
+    console.log(e);
+    let last_Index = accounts[j].cart.length-1;
+    let local_cart = accounts[j].cart;
+    if(k != last_Index){
+        let temp = local_cart[k];
+        local_cart[k] = local_cart[last_Index];
+        local_cart[last_Index] = local_cart[k];
+    }
+    total = total - (local_cart[last_Index].quantity * 1 );
+    
+    local_cart.pop();
     let div = e.target.parentNode.parentNode;
-    let quantity = e.target.parentNode.parentNode.childNodes[3].childNodes[1].innerText;
-    
-    let obj = {};
-    let product_id = div.getAttribute("class");
-    
-    obj.id = product_id;
-    obj.quantity = 1;
-    
-    var flag = true;
-    accounts[j].cart = accounts[j].cart.filter((item)=>{
-        if(item.id == product_id){
-            flag = false;
-            if(quantity != item.quantity){
-                item.quantity = ++item.quantity;
-                atc.innerHTML = " <b>Cart Quantity</b> "+`${item.quantity}`
-            }
-        }
-        return item;
-    })
-    
-    if(flag){
-        accounts[j].cart.push(obj);
-        atc.innerHTML = " <b>Cart Quantity</b> "+`1`
+    div.remove();
+
+    if(local_cart.length == 0){
+        buttons.setAttribute("style", "border-radius: 0cm 0cm 1cm 1cm;");
     }
-    
     storeToLocalStorage();
 }
 
@@ -235,13 +246,11 @@ function storeToLocalStorage(){
 
 //redirects
 
-function redirectToCart(){
-    window.location.href = '../Cart/cart.html';
+function redirectToDeliver(){
+    window.location.href = '../Cart/deliver.html';
 }
 function redirectToHome() {
     window.location.href = '../home/index.html';
 }
 
-
 //////////////////////////////////////////////////////////////////////////
-
