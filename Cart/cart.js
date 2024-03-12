@@ -12,10 +12,11 @@ let logout = document.querySelector("#logout");
 let buttons = document.querySelector("#buttons");
 let welcome = document.querySelector("#welcome");
 
-let user = sessionStorage.getItem("login");
-let accounts = JSON.parse(localStorage.getItem("accounts"));
 
 let user_products = [];
+
+let div_total = document.createElement('div');
+let span_total = document.createElement('span');
 
 let products = [];
 let i=0;
@@ -24,6 +25,25 @@ let div = null;
 let j = 0;
 
 let total = 0;
+
+let hundreds;
+
+div_total.innerText = "Ruppes ";
+div_total.appendChild(span_total);
+welcome.appendChild(div_total); 
+total_update();
+
+let user = sessionStorage.getItem("login");
+let accounts = JSON.parse(localStorage.getItem("accounts"));
+
+//////////////////////////////////////////////////////////////////////////
+
+function total_update(){
+    hundreds = total
+    hundreds = hundreds.toLocaleString("en-IN");
+    span_total.innerText = hundreds;
+}
+
 //////////////////////////////////////////////////////////////////////////
 
 //event listeners
@@ -39,6 +59,8 @@ logout.addEventListener("click",()=>{
 });
 
 deliver.addEventListener("click",()=>{
+    accounts[j].cart = [];
+    storeToLocalStorage();
     redirectToDeliver()
 });
 
@@ -80,15 +102,12 @@ function fetchFromLocalStorage(){
                 div.setAttribute("style", "border-radius: 0cm 0cm 1cm 1cm;");
             }
         }
-
-        let span4 = document.createElement('span');
         
-        let hundreds = new Number(total);
+        hundreds = new Number(total);
         hundreds = hundreds.toLocaleString("en-IN");
 
-        span4.innerText = "Ruppes " + hundreds;
-
-        welcome.appendChild(span4); 
+        span_total.innerText = hundreds;
+      
 
     }else{
         buttons.setAttribute("style", "border-radius: 0cm 0cm 1cm 1cm;");
@@ -140,8 +159,10 @@ function AddtoUI(obj,product,div,k){
     let span3 = document.createElement('span');
     
     span1.innerHTML = "Name" + " -> " + obj.name;
-    let hundreds = new Number(obj.price);
+    
+    hundreds = new Number(obj.price);
     hundreds = hundreds.toLocaleString("en-IN");
+    
     span2.innerHTML = "Price" + " -> " + hundreds;
     span3.innerHTML = "MaxQuantity" + " -> " + `<b>${obj.quantity}</b>`;
     
@@ -161,7 +182,7 @@ function AddtoUI(obj,product,div,k){
     let incre = document.createElement('button');
     incre.innerHTML = "Incre";
     incre.addEventListener("click",(e)=>{
-        increment(e,k,obj.quantity);
+        increment(e,k,obj);
     })
 
     let span = document.createElement('span');
@@ -170,7 +191,7 @@ function AddtoUI(obj,product,div,k){
     let decre = document.createElement('button');
     decre.innerHTML = "Decre";
     decre.addEventListener("click",(e)=>{
-        decrement(e,k);
+        decrement(e,k,obj);
     })
     
     div_buttons.appendChild(decre);
@@ -182,7 +203,7 @@ function AddtoUI(obj,product,div,k){
     let delete_btn = document.createElement('button');
     delete_btn.innerHTML = "delete";
     delete_btn.addEventListener("click",(e)=>{
-        delete_button(e,k);
+        delete_button(e,k,obj);
     });
     div_final.appendChild(delete_btn);
 
@@ -198,20 +219,31 @@ function AddtoUI(obj,product,div,k){
 
 //////////////////////////////////////////////////////////////////////////
 
-function increment(e,k,quantity){
+function increment(e,k,obj){
 
-    if(quantity != accounts[j].cart[k].quantity){
+    
+    if(obj.quantity != accounts[j].cart[k].quantity){
+        
+        total += new Number (obj.price);
+        total_update();
+        
         accounts[j].cart[k].quantity = ++accounts[j].cart[k].quantity;
         storeToLocalStorage();
+
     }
     quantity = e.target.parentNode.childNodes[1].childNodes[1];
     quantity.innerText = accounts[j].cart[k].quantity;
 }
 
-function decrement(e,k){
+function decrement(e,k,obj){
     accounts[j].cart[k].quantity = --accounts[j].cart[k].quantity;
+
+    total -= new Number (obj.price);
+    total_update();
+
     if(accounts[j].cart[k].quantity <=0){
         delete_button(e,k);
+
     }
     quantity = e.target.parentNode.childNodes[1].childNodes[1];
     quantity.innerText = accounts[j].cart[k].quantity;
@@ -220,26 +252,28 @@ function decrement(e,k){
 
 //////////////////////////////////////////////////////////////////////////
 
-function delete_button(e,k){
-    console.log(e);
-    let last_Index = accounts[j].cart.length-1;
+function delete_button(e,k,obj){
     let local_cart = accounts[j].cart;
-    if(k != last_Index){
-        let temp = local_cart[k];
-        local_cart[k] = local_cart[last_Index];
-        local_cart[last_Index] = local_cart[k];
-    }
-    total = total - (local_cart[last_Index].quantity * 1 );
+    accounts[j].cart = accounts[j].cart.filter((item)=>{
+        if(item != null && item.id == obj.id){
+            total = total - (item.quantity * obj.price);
+        }else{
+            return item; 
+        }
+        
+    })
     
-    local_cart.pop();
     let div = e.target.parentNode.parentNode;
     div.remove();
-
-    if(local_cart.length == 0){
+    
+    if(accounts[j].cart.length == 0){
         buttons.setAttribute("style", "border-radius: 0cm 0cm 1cm 1cm;");
     }
+
+    total_update();
     storeToLocalStorage();
 }
+
 
 //////////////////////////////////////////////////////////////////////////
 

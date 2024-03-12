@@ -168,7 +168,7 @@ function Addtocart_button(div1,id){
         let atc = document.createElement('button');
         let flag = true;
         accounts[j].cart.filter((item)=>{
-            if(id == item.id && item.quantity != 0){
+            if(item != null && id == item.id && item.quantity != 0){
                 flag = false;
                 atc.innerHTML = " <b>Cart Quantity</b> "+`${item.quantity}`
             }
@@ -199,7 +199,7 @@ function Addtocart(e,atc) {
     
     var flag = true;
     accounts[j].cart = accounts[j].cart.filter((item)=>{
-        if(item.id == product_id){
+        if(item != null && item.id == product_id){
             flag = false;
             if(quantity != item.quantity){
                 item.quantity = ++item.quantity;
