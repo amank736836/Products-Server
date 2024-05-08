@@ -17,7 +17,6 @@ let load_more = document.querySelector("#load");
 
 let user = sessionStorage.getItem("login");
 let accounts = JSON.parse(localStorage.getItem("accounts"));
-
 let products = [];
 let i=0;
 let div = null;
@@ -174,14 +173,12 @@ function Addtocart_button(div1,id){
             }
             return item;
         })
-        
         if(flag){
             atc.innerHTML = "<b>Add to Cart<b>";
         }
-        
         atc.addEventListener("click",(e)=>{
             Addtocart(e,atc);
-        })  
+        })
         div1.appendChild(atc);
     }
 }

@@ -1,6 +1,6 @@
-
-// authorization (admin -- products // user -- products)
-
-// new page for showing products -- load more -- per page 6 products
-
-//add to cart -- cart page 
+// ecommerce using local storage browser
+// ecommerce using json local file
+// ecommerce using mongo db
+// ecommerce using mongoose
+// ecommerce using ejs
+// chat app with rooms using socket.io
