@@ -1,6 +1,6 @@
-//////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////////////////////
 
-//variables 
+// //variables 
 
 let body = document.querySelector("body");
 
@@ -12,37 +12,28 @@ let logout = document.querySelector("#logout");
 let buttons = document.querySelector("#buttons");
 let welcome = document.querySelector("#welcome");
 
-
-let user_products = [];
-
 let div_total = document.createElement('div');
 let span_total = document.createElement('span');
 
-let products = [];
-let i=0;
+let user = sessionStorage.getItem("login");
+
+let user_products = [];
 let div = null;
 
+let i=0;
 let j = 0;
 
 let total = 0;
-
 let hundreds;
-
-div_total.innerText = "Ruppes ";
+div_total.innerText = "Rupees ";
 div_total.appendChild(span_total);
-welcome.appendChild(div_total); 
+welcome.appendChild(div_total);
 total_update();
 
-let user = sessionStorage.getItem("login");
-let accounts = JSON.parse(localStorage.getItem("accounts"));
 
-//////////////////////////////////////////////////////////////////////////
-
-function total_update(){
-    hundreds = total
-    hundreds = hundreds.toLocaleString("en-IN");
-    span_total.innerText = hundreds;
-}
+let data = {};
+let accounts = [];
+let products = [];
 
 //////////////////////////////////////////////////////////////////////////
 
@@ -60,24 +51,36 @@ logout.addEventListener("click",()=>{
 
 deliver.addEventListener("click",()=>{
     accounts[j].cart = [];
-    storeToLocalStorage();
+    post();
     redirectToDeliver()
 });
 
+////////////////////////////////////////////////////////////////////////
+
+function total_update(){
+    hundreds = total
+    hundreds = hundreds.toLocaleString("en-IN");
+    span_total.innerText = hundreds;
+}
+
 //////////////////////////////////////////////////////////////////////////
 
-function fetch_cart(){
+async function fetch_cart(){
+    await get();
+    // console.log(accounts);
     if(user!=null && user!="" ){
         j = -1;
-        accounts = JSON.parse(localStorage.getItem("accounts"));
         let flag = true;
         while(flag){
             j++;
-            if(accounts[j].user == user){
+            if(accounts[j].user === user){
                 flag = false;
             }
         }
+    }else{
+        redirectToHome();
     }
+    fetchFromLocalStorage();
 }
 
 fetch_cart();
@@ -85,42 +88,38 @@ fetch_cart();
 //////////////////////////////////////////////////////////////////////////
 
 function fetchFromLocalStorage(){
-    if( accounts[j].cart !='[]' && accounts[j].cart.length != 0){
+    if( accounts[j].cart.length > 0){
         user_products = accounts[j].cart;
         while(i<user_products.length){
 
             if(div != null){
                 div.removeAttribute("style");
             }
-    
+
             div = document.createElement("div");
             div.setAttribute("id", "products");
-    
-            fetch(user_products[i],div,i);
+
+            fetch_user(user_products[i],div,i);
             i++
             if(i == user_products.length){
                 div.setAttribute("style", "border-radius: 0cm 0cm 1cm 1cm;");
             }
         }
-        
+
         hundreds = new Number(total);
         hundreds = hundreds.toLocaleString("en-IN");
 
         span_total.innerText = hundreds;
-      
 
     }else{
         buttons.setAttribute("style", "border-radius: 0cm 0cm 1cm 1cm;");
     }
 }
 
-fetchFromLocalStorage();
-
 //////////////////////////////////////////////////////////////////////////
 
-function fetch(product,div,k){
-    if(localStorage.getItem("products")!='[]' && localStorage.getItem("products")){
-        products = JSON.parse(localStorage.getItem("products"));
+function fetch_user(product,div,k){
+    if(products.length != 0){
         let obj = products.filter((item)=>{
             if(item.id==product.id){
                 return item;
@@ -138,8 +137,7 @@ function fetch(product,div,k){
 
 //////////////////////////////////////////////////////////////////////////
 function AddtoUI(obj,product,div,k){
-    
-    
+
     let main_div = document.createElement('div');
     main_div.setAttribute("class", obj.id);
     main_div.setAttribute("id", "div1");
@@ -147,22 +145,22 @@ function AddtoUI(obj,product,div,k){
     let div_img = document.createElement('div');
     let img = document.createElement('img');
     img.src = "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
-    
+
     div_img.appendChild(img);
     main_div.appendChild(div_img);
-    
+
     let div_details = document.createElement('div');
     div_details.setAttribute("id", "details");
-    
+
     let span1 = document.createElement('span');
     let span2 = document.createElement('span');
     let span3 = document.createElement('span');
-    
+
     span1.innerHTML = "Name" + " -> " + obj.name;
-    
+
     hundreds = new Number(obj.price);
     hundreds = hundreds.toLocaleString("en-IN");
-    
+
     span2.innerHTML = "Price" + " -> " + hundreds;
     span3.innerHTML = "MaxQuantity" + " -> " + `<b>${obj.quantity}</b>`;
     
@@ -228,7 +226,7 @@ function increment(e,k,obj){
         total_update();
         
         accounts[j].cart[k].quantity = ++accounts[j].cart[k].quantity;
-        storeToLocalStorage();
+        post();
 
     }
     quantity = e.target.parentNode.childNodes[1].childNodes[1];
@@ -239,15 +237,14 @@ function decrement(e,k,obj){
     accounts[j].cart[k].quantity = --accounts[j].cart[k].quantity;
 
     total -= new Number (obj.price);
-    total_update();
-
-    if(accounts[j].cart[k].quantity <=0){
-        delete_button(e,k);
-
-    }
+    
     quantity = e.target.parentNode.childNodes[1].childNodes[1];
     quantity.innerText = accounts[j].cart[k].quantity;
-    storeToLocalStorage();
+    if(accounts[j].cart[k].quantity <= 0){
+        delete_button(e,k,obj);
+    }
+    total_update();
+    post();
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -258,27 +255,59 @@ function delete_button(e,k,obj){
         if(item != null && item.id == obj.id){
             total = total - (item.quantity * obj.price);
         }else{
-            return item; 
+            return item;
         }
-        
     })
     
-    let div = e.target.parentNode.parentNode;
+    let div = e.target.parentNode.parentNode.parentNode;
     div.remove();
     
     if(accounts[j].cart.length == 0){
         buttons.setAttribute("style", "border-radius: 0cm 0cm 1cm 1cm;");
     }
-
-    total_update();
-    storeToLocalStorage();
+    console.log(accounts[j].cart);
+    post();
+    // redirectToCart();
 }
-
 
 //////////////////////////////////////////////////////////////////////////
 
-function storeToLocalStorage(){
-    localStorage.setItem("accounts",JSON.stringify(accounts));
+// fetch data
+
+
+async function get() {
+    try {
+        let response = await fetch('/get',{
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        data = await response.json();
+        console.log(data);
+        accounts = data.accounts;
+        console.log(accounts)
+        products = data.products;
+        console.log(products)
+    } catch (error) {
+        console.error("Error fetching data:", error);
+    }
+}
+
+async function post(){
+    try{
+        data.accounts = accounts;
+        await fetch('/post',{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+    }
+    catch(error){
+        console.log(error);
+    }
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -286,10 +315,13 @@ function storeToLocalStorage(){
 //redirects
 
 function redirectToDeliver(){
-    window.location.href = '../Cart/deliver.html';
+    window.location.href = './deliver.html';
 }
 function redirectToHome() {
-    window.location.href = '../home/index.html';
+    window.location.href = './index.html';
+}
+function redirectToCart() {
+    window.location.href = './cart.html';
 }
 
 //////////////////////////////////////////////////////////////////////////

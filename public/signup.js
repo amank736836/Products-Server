@@ -13,8 +13,9 @@ let logged = sessionStorage.getItem("login");
 
 let messageTag = document.createElement("label");
 
-let Accounts = [];
-let Accounts_Counter = 1;
+let data = {};
+let accounts = [];
+let accounts_id = 1;
 
 //////////////////////////////////////////////////////////////////////////
 
@@ -41,7 +42,6 @@ function check_message(){
 check_message();
 
 //////////////////////////////////////////////////////////////////////////
-
 function create_message(){
     let div = document.createElement("div");
     messageTag.innerText = message;
@@ -49,11 +49,8 @@ function create_message(){
     buttons.insertBefore(div,signup);
     sessionStorage.setItem("message",'');
 }
-
 //////////////////////////////////////////////////////////////////////////
-
 function input(e){
-    
     if( (e.keyCode==13 || e.target.id=="signup") && (user.value.trim()=="")){
         messageTag.innerText = "Please enter username";
     }
@@ -64,63 +61,79 @@ function input(e){
         signup_account();
     }
 }
-
 //////////////////////////////////////////////////////////////////////////
-
 function signup_account(){
-    
-    
-    fetchFromLocalStorage();
-    
     obj = {};
     obj.user = user.value.trim();
     obj.pass = pass.value.trim();
-    obj.id = Accounts_Counter;
+    obj.id = accounts_id;
     obj.cart = [];
-    
-    
-    let check = Accounts.filter((obj)=>{
+
+    console.log(accounts);
+    let check = accounts.filter((obj)=>{
         if(obj.user == user.value){
             sessionStorage.setItem("message","Account exist");
             return obj;
         }
     })
-    
     if(check.length == 0){
-        Accounts.push(obj);
-        storeToLocalStorage();
-        Accounts_Counter++;
-        localStorage.setItem("accounts_counter",Accounts_Counter);
+        accounts.push(obj);
         sessionStorage.setItem("message","Account created successfully");
-        redirectToLogin();
+        accounts_id++;
     }
+    console.log(accounts);
+    post();
     redirectToLogin();
 }
-
 //////////////////////////////////////////////////////////////////////////
 
-function fetchFromLocalStorage(){
-    if(localStorage.getItem("accounts")!='[]' && localStorage.getItem("accounts")){
-        Accounts = JSON.parse(localStorage.getItem("accounts"));
-        Accounts_Counter = localStorage.getItem("accounts_counter");
-    }else{
-        localStorage.setItem('accounts_counter',1);
-        Accounts_Counter = 1;
+async function storeToLocalStorage(){
+    await post();
+}
+
+//////////////////////////////////////////////////////////////////////////
+// fetch data
+get();
+async function get() {
+    try {
+        let response = await fetch('/get', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        data = await response.json();
+        // console.log("response");
+        console.log(data);
+        accounts = data.accounts;
+        if(data.accounts_id != null){
+            accounts_id = data.accounts_id;
+        }
+    } catch (error) {
+        console.error("Error fetching data:", error);
     }
 }
-
-//////////////////////////////////////////////////////////////////////////
-
-function storeToLocalStorage(){
-    localStorage.setItem("accounts",JSON.stringify(Accounts));
+async function post(){
+    try{
+        data.accounts = accounts;
+        data.accounts_id = accounts_id;
+        // console.log(data);
+        let response = await fetch('/post',{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+    }
+    catch(error){
+        console.log(error);
+    }
 }
-
 //////////////////////////////////////////////////////////////////////////
-
 function redirectToProducts() {
-    window.location.href = '../products/product.html';
+    window.location.href = './product.html';
 }
-
 function redirectToLogin() {
-    window.location.href = '../login/login.html';
+    window.location.href = './login.html';
 }

@@ -8,13 +8,14 @@ const user = document.querySelector("#user");
 const pass = document.querySelector("#pass");
 const buttons = document.querySelector("#buttons");
 
+let label = document.createElement("label");
+
 let message = sessionStorage.getItem("message");
 let logged = sessionStorage.getItem("login");
 
-let label = document.createElement("label");
-
-let Accounts = [];
-let Accounts_Counter = 1;
+let data = {};
+let accounts = [];
+let account_id = 1;
 
 //////////////////////////////////////////////////////////////////////////
 
@@ -66,13 +67,12 @@ function input(e){
 
 
 function login_account(){
-    
-    fetchFromLocalStorage();
-    if( Accounts.length == 0){
+
+    if( accounts.length == 0){
         sessionStorage.setItem("message","Please Sign Up");
         redirectToSignup();
     }else{
-        Accounts = Accounts.filter((obj)=>{
+        accounts = accounts.filter((obj)=>{
             if(obj.user == user.value && obj.pass == pass.value){
                 sessionStorage.setItem("login",user.value);
                 sessionStorage.setItem("message",'Approved');
@@ -82,34 +82,48 @@ function login_account(){
                 return obj;
             }
         })
-        if(Accounts.length == 0){
+        if(accounts.length == 0){
             sessionStorage.setItem("message","No Account exist");
             redirectToSignup();
-        }else if(Accounts[0].user == user.value && Accounts[0].pass == pass.value){
+        }else if(accounts[0].user == user.value && accounts[0].pass == pass.value){
             redirectToProducts();
         }else
         redirectToLogin();
     }
 }
 
-function fetchFromLocalStorage(){
-    if(localStorage.getItem("accounts")!='[]' && localStorage.getItem("accounts")){
-        Accounts = JSON.parse(localStorage.getItem("accounts"));
-        Accounts_Counter = localStorage.getItem("accounts_counter");
+//////////////////////////////////////////////////////////////////////////
+
+// fetch data
+
+get();
+async function get() {
+    try {
+        let response = await fetch('/get', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        data = await response.json();
+        accounts = data.accounts;
+        accounts_id = data.accounts_id;
+    } catch (error) {
+        console.error("Error fetching data:", error);
     }
 }
 
 //////////////////////////////////////////////////////////////////////////
 
 function redirectToProducts() {
-    window.location.href = '../products/product.html';
+    window.location.href = './product.html';
 }
 function redirectToLogin() {
-    window.location.href = '../login/login.html';
+    window.location.href = './login.html';
 }
 function redirectToSignup() {
-window.location.href = '../signup/signup.html';
+window.location.href = './signup.html';
 }
 function redirectToProducts() {
-    window.location.href = '../products/product.html';
+    window.location.href = './product.html';
 }

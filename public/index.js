@@ -16,12 +16,15 @@ let load_div = document.querySelector("#load_div");
 let load_more = document.querySelector("#load");
 
 let user = sessionStorage.getItem("login");
-let accounts = JSON.parse(localStorage.getItem("accounts"));
-let products = [];
-let i=0;
+
 let div = null;
 
+let i=0;
 let j = 0;
+
+let products = [];
+let accounts = [];
+
 //////////////////////////////////////////////////////////////////////////
 
 //event listeners
@@ -50,14 +53,19 @@ load_more.addEventListener("click",()=>{
 
 //////////////////////////////////////////////////////////////////////////
 
-function login_check(){
+async function login_check(){
+    await get();
     if(user == null || user == ""){
         gotocart.remove();
         logout.remove();
     }else{
         login.remove();
         signup.remove();
+        // console.log("dfskj");
+        fetch_cart();
     }
+    fetchFromLocalStorage();
+
 }
 
 login_check();
@@ -67,7 +75,6 @@ login_check();
 function fetch_cart(){
     if(user!=null && user!="" ){
         j = -1;
-        accounts = JSON.parse(localStorage.getItem("accounts"));
         let flag = true;
         while(flag){
             j++;
@@ -78,40 +85,35 @@ function fetch_cart(){
     }
 }
 
-fetch_cart();
 
 //////////////////////////////////////////////////////////////////////////
 
 function fetchFromLocalStorage(){
-    if(localStorage.getItem("products")!='[]' && localStorage.getItem("products")){
-        products = JSON.parse(localStorage.getItem("products"));
-        if(i<products.length){
+    // console.log(products);
+    if(products.length != 0){
+        if(div != null){
+            div.removeAttribute("style");
+        }
 
-            if(div != null){
-                div.removeAttribute("style");
+        div = document.createElement("div");
+        div.setAttribute("id", "products");
+
+        let div_count = 0;
+        let product_count = 0;
+
+        while(i<products.length && product_count<6){
+            if(div_count>2){
+                div_count = 0;
+                div = document.createElement("div");;
+                div.setAttribute("id", "products");
             }
-    
-            div = document.createElement("div");
-            div.setAttribute("id", "products");
-    
-            let div_count = 0;
-            let product_count = 0;
-    
-            while(i<products.length && product_count<6){
-                if(div_count>2){
-                    div_count = 0;
-                    div = document.createElement("div");;
-                    div.setAttribute("id", "products");
-                }
-                AddtoUI(products[i],div);
-                product_count++;
-                div_count++;   
-                i++
-                if(product_count == 5 || i == products.length){
-                    div.setAttribute("style", "border-radius: 0cm 0cm 1cm 1cm;");
-                }
+            AddtoUI(products[i],div);
+            product_count++;
+            div_count++;   
+            i++
+            if(product_count == 5 || i == products.length){
+                div.setAttribute("style", "border-radius: 0cm 0cm 1cm 1cm;");
             }
-            
         }
         
         if(i==products.length){
@@ -123,9 +125,6 @@ function fetchFromLocalStorage(){
         load_more.setAttribute("hidden","");
     }
 }
-
-fetchFromLocalStorage();
-
 
 //////////////////////////////////////////////////////////////////////////
 function AddtoUI(obj,div){
@@ -211,13 +210,47 @@ function Addtocart(e,atc) {
         atc.innerHTML = " <b>Cart Quantity</b> "+`1`
     }
     
-    storeToLocalStorage();
+    post();
 }
 
 //////////////////////////////////////////////////////////////////////////
 
-function storeToLocalStorage(){
-    localStorage.setItem("accounts",JSON.stringify(accounts));
+// fetch data
+
+async function get() {
+    try {
+        let response = await fetch('/get', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        // console.log(response);
+        data = await response.json();
+
+        accounts = data.accounts;
+        products = data.products;
+        
+    } catch (error) {
+        console.error("Error fetching data:", error);
+    }
+}
+
+
+async function post(){
+    try{
+        data.accounts = accounts;
+        await fetch('/post',{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+    }
+    catch(error){
+        console.log(error);
+    }
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -225,16 +258,16 @@ function storeToLocalStorage(){
 //redirects
 
 function redirectToCart(){
-    window.location.href = '../Cart/cart.html';
+    window.location.href = './cart.html';
 }
 function redirectToHome() {
-    window.location.href = '../home/index.html';
+    window.location.href = './index.html';
 }
 function redirectToLogin() {
-    window.location.href = '../login/login.html';
+    window.location.href = './login.html';
 }
 function redirectToSignup() {
-    window.location.href = '../signup/signup.html';
+    window.location.href = './signup.html';
 }
 
 //////////////////////////////////////////////////////////////////////////

@@ -16,7 +16,7 @@ const logout = document.querySelector("#logout");
 const DeleteAll = document.querySelector("#DeleteAll");
 
 let products = [];
-let product_counter = 1;
+let products_counter = 1;
 
 //////////////////////////////////////////////////////////////////////////
 
@@ -34,40 +34,28 @@ logout.addEventListener("click",()=>{
 });
 
 DeleteAll.addEventListener("click",()=>{
-    localStorage.setItem("products","[]");
-    localStorage.setItem("product_counter",1);
+    products = [];
+    products_counter = 1;
+    post();
     redirectToProducts();
 })
 
 //////////////////////////////////////////////////////////////////////////
-
-function admin_check(){
+async function admin_check(){
     if(user!="aman") redirectToHome();
+    await get();
+    fetchFromLocalStorage();
 }
-
+admin_check();
 //////////////////////////////////////////////////////////////////////////
-
 function fetchFromLocalStorage(){
-    admin_check();
-    if(localStorage.getItem("products")!='[]' && localStorage.getItem("products")){
-        products = JSON.parse(localStorage.getItem("products"));
-        product_counter = localStorage.getItem("product_counter");
+    if(products.length != 0){
         products.forEach((item) => AddtoUI(item))
     }else{
         form2.setAttribute("style", "border-radius: 0cm 0cm 1cm 1cm;");
     }
 }
-
-fetchFromLocalStorage();
-
 //////////////////////////////////////////////////////////////////////////
-
-function storeToLocalStorage(){
-    localStorage.setItem("products",JSON.stringify(products));
-}
-
-//////////////////////////////////////////////////////////////////////////
-
 function input(e){
     if( (e.keyCode==13) && (name.value.trim()=="" || quantity.value.trim()=="" || price.value.trim()=="")){
         // alert("Please enter values correctly");
@@ -75,61 +63,48 @@ function input(e){
         AddTask();
     }
 }
-
-
 //////////////////////////////////////////////////////////////////////////
-
 function AddTask() {
     let obj = {};
     obj.name = name.value.trim();
     obj.quantity = quantity.value.trim();
     obj.price = price.value.trim();
-    obj.id = product_counter;
+    obj.id = products_counter;
     products.push(obj);
-    storeToLocalStorage();
     if(products.length != 0){
         form2.removeAttribute("style");
     }
     AddtoUI(obj);
-    product_counter++;
-    localStorage.setItem('product_counter',product_counter);
+    products_counter++;
+    post();
 }
-
 //////////////////////////////////////////////////////////////////////////
-
 function AddtoUI(obj){
-    
     let div1 = document.createElement('div');
     let img = document.createElement('img');
     img.src = "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
     let span1 = document.createElement('span');
     let span2 = document.createElement('span');
     let span3 = document.createElement('span');
-    
     let div2 = document.createElement('div');
     let replace = document.createElement("button");
     let del = document.createElement("button");
-    
     div1.setAttribute("class", obj.id);
     div1.setAttribute("id", "div1");
-    
     span1.innerHTML = obj.name;
     let hundreds = new Number(obj.price);
     hundreds = hundreds.toLocaleString("en-IN");
     span2.innerHTML = hundreds;
     span3.innerHTML =`<b>${obj.quantity}</b>`;
-    
-    
     replace.innerHTML = "<b>Replace<b>";
     replace.addEventListener('click',(e)=>{
         update_item(e);
     });
-    
+
     del.innerHTML = "<b>Delete<b>";
     del.addEventListener('click',(e)=>{
         delete_item(e);
     })
-    
     div1.appendChild(img);
     div1.appendChild(span1);
     div1.appendChild(span2);
@@ -139,18 +114,14 @@ function AddtoUI(obj){
     div1.appendChild(div2);
     let firstChild = div.firstChild;
     div.insertBefore(div1,firstChild);
-    
     clear();
 }
-
 //////////////////////////////////////////////////////////////////////////
-
 function clear(){
     name.value = "";
     quantity.value = "";
     price.value = "";
 }
-
 //////////////////////////////////////////////////////////////////////////
 
 function update_item(e){
@@ -172,7 +143,7 @@ function update_item(e){
         }
         return item;
     })
-    storeToLocalStorage();
+    post();
     clear();
 }
 
@@ -185,11 +156,52 @@ function delete_item(e){
     products = products.filter((item)=>{
         if(item.id != taskid) return item;
     })
-    storeToLocalStorage();
     if(products.length == 0){
-        localStorage.setItem('product_counter',1);
-        product_counter = 1;
+        products_counter = 1;
         form2.setAttribute("style", "border-radius: 0cm 0cm 1cm 1cm;");
+    }
+    post();
+}
+
+//////////////////////////////////////////////////////////////////////////
+
+// fetch data
+
+async function get() {
+    try {
+        let response = await fetch('/get', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        data = await response.json();
+        console.log(data);
+        products = data.products;
+        if(products_counter != null){
+            products_counter = data.products_counter;
+        }
+    } catch (error) {
+        console.error("Error fetching data:", error);
+    }
+}
+
+
+async function post(){
+    try{
+        data.products = products;
+        data.products_counter = products_counter;
+        console.log(data);
+        let response = await fetch('/post',{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+    }
+    catch(error){
+        console.log(error);
     }
 }
 
@@ -198,13 +210,13 @@ function delete_item(e){
 //redirects
 
 function redirectToHome() {
-    window.location.href = '../home/index.html';
+    window.location.href = './index.html';
 }
 function redirectToProducts() {
-    window.location.href = '../products/product.html';
+    window.location.href = './product.html';
 }
 function redirectToLogin() {
-    window.location.href = '../login/login.html';
+    window.location.href = './login.html';
 }
 
 //////////////////////////////////////////////////////////////////////////

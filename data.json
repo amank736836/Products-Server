@@ -1,0 +1,50 @@
+{
+    "accounts_id": 5,
+    "accounts": [
+        {
+            "user": "aman",
+            "pass": "kumar",
+            "id": 1,
+            "cart": []
+        },
+        {
+            "user": "aditya",
+            "pass": "aman",
+            "id": 2,
+            "cart": []
+        },
+        {
+            "user": "neel",
+            "pass": "gupta",
+            "id": 3,
+            "cart": []
+        },
+        {
+            "user": "abhishek",
+            "pass": "gupta",
+            "id": 4,
+            "cart": []
+        }
+    ],
+    "products_counter": 4,
+    "products": [
+        {
+            "name": "HeadPhone",
+            "quantity": "125",
+            "price": "499",
+            "id": 1
+        },
+        {
+            "name": "KeyBoard",
+            "quantity": "230",
+            "price": "1000",
+            "id": 2
+        },
+        {
+            "name": "Mouse",
+            "quantity": "175",
+            "price": "750",
+            "id": 3
+        }
+    ]
+}
