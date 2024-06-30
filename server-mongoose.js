@@ -1,10 +1,11 @@
+require('dotenv').config();
 const express = require('express');
 const app = express();
 app.use(express.static('public'));
 app.use(express.json());
 const mongoose = require('mongoose');
 // mongoose.connect('mongodb://localhost:27017/')
-mongoose.connect('mongodb+srv://aman:kumar@e-commerce.z9v1cge.mongodb.net/?retryWrites=true&w=majority&appName=E-commerce')
+mongoose.connect(`mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_HOST}/`)
   .then(() => console.log('Connected to MongoDB...'))
   .catch(err => console.error('Could not connect to MongoDB...'));
 
