@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const app = express();
 const mongodb = require('mongodb');
@@ -6,7 +7,7 @@ app.use(express.static('public'));
 app.use(express.json());
 
 const MongoClient = mongodb.MongoClient;
-const url = 'mongodb+srv://aman:kumar@e-commerce.z9v1cge.mongodb.net/?retryWrites=true&w=majority&appName=E-commerce';
+const url = `mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_HOST}/`;
 // const url = 'mongodb://localhost:27017';
 const dbName = 'productsMongoDB';
 const collectionName = 'products';
